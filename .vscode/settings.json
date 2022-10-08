@@ -1,0 +1,9 @@
+{
+    "idf.adapterTargetName": "esp32s3",
+    "files.associations": {
+        "stdbool.h": "c",
+        "lv_port_disp.h": "c",
+        "iostream": "cpp"
+    },
+    "idf.portWin": "COM7"
+}
