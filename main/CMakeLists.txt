@@ -1,2 +1,2 @@
-idf_component_register(SRCS "FreeKMain.cpp"
+idf_component_register(SRCS "main.cpp" "Application.cpp"
                     INCLUDE_DIRS "./")
