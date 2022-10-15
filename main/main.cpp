@@ -1,11 +1,8 @@
 
-//SYS
-#include <iostream>
 //User
 #include "LinkConfig.h"
 #include "Application.h"
 #include "LinkManager.h"
-#include "esp_event_cxx.h"
 //FreeRtos
 #include "sdkconfig.h"
 #include "freertos/FreeRTOS.h"
@@ -26,11 +23,9 @@ extern "C" void app_main(void)
     wifi_init_sta();
     //初始化LVGL显示端口
     lv_port_disp_init();
+    //输入接口初始化
     //初始化文件系统
     //lv_fs_if_init();
-    ESPEventID id(2);
-   
-
     app->appInit();
     for(;;) {
         lv_task_handler();

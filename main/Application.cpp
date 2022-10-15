@@ -1,6 +1,6 @@
 #include "Application.h"
 #include "LinkManager.h"
-#include "esp_event_api.h"
+#include "PageManager.h"
 Application *Application::_app=nullptr;
 Application::Application()
 {
@@ -24,6 +24,7 @@ Application::appInit()
    //连接系统
    
    linkManager = new LinkManager();
+   pageManager = new PageManager();
    //
 }
 //------------------------------------------------------------------------

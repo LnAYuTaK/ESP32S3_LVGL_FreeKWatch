@@ -1,12 +1,19 @@
-#include "esp_event_api.h"
+#include "esp_event.h"
+#include "esp_event_cxx.hpp"
+#include "esp_event_api.hpp"
+
 #ifdef __cpp_exceptions
+
+namespace idf {
+
+namespace event {
 
 ESPEventAPIDefault::ESPEventAPIDefault()
 {
     esp_err_t res = esp_event_loop_create_default();
-    // if (res != ESP_OK) {
-    //     throw EventException(res);
-    // }
+    if (res != ESP_OK) {
+        throw idf::event::EventException(res);
+    }
 }
 
 ESPEventAPIDefault::~ESPEventAPIDefault()
@@ -51,9 +58,9 @@ esp_err_t ESPEventAPIDefault::post(esp_event_base_t event_base,
 ESPEventAPICustom::ESPEventAPICustom(const esp_event_loop_args_t &event_loop_args)
 {
     esp_err_t res = esp_event_loop_create(&event_loop_args, &event_loop);
-    // if (res != ESP_OK) {
-    //     throw idf::event::EventException(res);
-    // }
+    if (res != ESP_OK) {
+        throw idf::event::EventException(res);
+    }
 }
 
 ESPEventAPICustom::~ESPEventAPICustom()
@@ -100,5 +107,9 @@ esp_err_t ESPEventAPICustom::run(TickType_t ticks_to_run)
 {
     return esp_event_loop_run(event_loop, ticks_to_run);
 }
+
+} // event
+
+} // idf
 
 #endif // __cpp_exceptions

@@ -1,3 +1,16 @@
+// Copyright 2019 Espressif Systems (Shanghai) PTE LTD
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//         http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
 
 #ifndef ESP_EVENT_CXX_H_
 #define ESP_EVENT_CXX_H_
@@ -20,8 +33,12 @@
 #include "freertos/FreeRTOS.h"
 #include "freertos/queue.h"
 
-#include "esp_exception.h"
-#include "esp_event_api.h"
+#include "esp_exception.hpp"
+#include "esp_event_api.hpp"
+
+namespace idf {
+
+namespace event {
 
 extern const std::chrono::milliseconds PLATFORM_MAX_DELAY_MS;
 
@@ -32,15 +49,26 @@ public:
     EventException(esp_err_t error) : ESPException(error) { }
 };
 
-class EventTimeout : public EventException {
+/**
+ * @brief
+ * Thrown to signal a timeout in EventHandlerSync.
+ */
+class EventTimeout : public idf::event::EventException {
 public:
     EventTimeout(esp_err_t error) : EventException(error) { }
 };
 
+/**
+ * @brief
+ * Event ID wrapper class to make C++ APIs more explicit.
+ *
+ * This prevents APIs from taking raw ints as event IDs which are not very expressive and may be
+ * confused with other parameters of a function.
+ */
 class ESPEventID {
 public:
-
-    ESPEventID(int32_t event_id);
+    ESPEventID() : id(0) { }
+    explicit ESPEventID(int32_t event_id) : id(event_id) { }
 
     inline bool operator==(const ESPEventID &rhs) const {
         return id == rhs.get_id();
@@ -54,7 +82,7 @@ public:
     inline int32_t get_id() const {
         return id;
     }
-    
+
     friend std::ostream& operator<<(std::ostream& os, const ESPEventID& id);
 
 private:
@@ -66,6 +94,9 @@ inline std::ostream& operator<<(std::ostream &os, const ESPEventID& id) {
     return os;
 }
 
+/*
+ * Helper struct to bundle event base and event ID.
+ */
 struct ESPEvent {
     ESPEvent()
         : base(nullptr), id() { }
@@ -76,6 +107,9 @@ struct ESPEvent {
     ESPEventID id;
 };
 
+/**
+ * Thrown if event registration, i.e. \c register_event() or \c register_event_timed(), fails.
+ */
 struct ESPEventRegisterException : public EventException {
     ESPEventRegisterException(esp_err_t err, const ESPEvent& event)
         : EventException(err), esp_event(event) { }
@@ -97,21 +131,48 @@ inline bool operator==(const ESPEvent &lhs, const ESPEvent &rhs)
 
 TickType_t convert_ms_to_ticks(const std::chrono::milliseconds &time);
 
+/**
+ * Callback-event combination for ESPEventLoop.
+ *
+ * Used to bind class-based handler instances to event_handler_hook which is registered into the C-based
+ * esp event loop.
+ * It can be used directly, however, the recommended way is to obtain a unique_ptr via ESPEventLoop::register_event().
+ */
 class ESPEventReg {
 public:
+    /**
+     * Register the event handler \c cb to handle the events defined by \c ev.
+     *
+     * @param cb The handler to be called.
+     * @param ev The event for which the handler is registered.
+     * @param api The esp event api implementation.
+     */
     ESPEventReg(std::function<void(const ESPEvent &, void*)> cb,
             const ESPEvent& ev,
             std::shared_ptr<ESPEventAPI> api);
+
+    /**
+     * Unregister the event handler.
+     */
     virtual ~ESPEventReg();
 
 protected:
+    /**
+     * This is esp_event's handler, all events registered go through this.
+     */
     static void event_handler_hook(void *handler_arg,
                                    esp_event_base_t event_base,
                                    int32_t event_id,
                                    void *event_data);
 
+    /**
+     * User event handler.
+     */
     std::function<void(const ESPEvent &, void*)> cb;
 
+    /**
+     * Helper function to enter the instance's scope from the generic \c event_handler_hook().
+     */
     virtual void dispatch_event_handling(ESPEvent event, void *event_data);
 
     /**
@@ -140,7 +201,23 @@ protected:
  */
 class ESPEventRegTimed : public ESPEventReg {
 public:
-
+    /**
+     * Register the event handler \c cb to handle the events as well as a timeout callback in case the event doesn't
+     * arrive on time.
+     *
+     * If the event \c ev is received before \c timeout milliseconds, then the event handler is invoked.
+     * If no such event is received before \c timeout milliseconds, then the timeout callback is invoked.
+     * After the timeout or the first occurance of the event, the timer will be deactivated.
+     * The event handler registration will only be deactivated if the timeout occurs.
+     * If event handler and timeout occur at the same time, only either the event handler or the timeout callback
+     * will be invoked.
+     *
+     * @param cb The handler to be called.
+     * @param ev The event for which the handler is registered.
+     * @param timeout_cb The timeout callback which is called in case there is no event for \c timeout microseconds.
+     * @param timeout The timeout in microseconds.
+     * @param api The esp event api implementation.
+     */
     ESPEventRegTimed(std::function<void(const ESPEvent &, void*)> cb,
             const ESPEvent& ev,
             std::function<void(const ESPEvent &)> timeout_cb,
@@ -384,6 +461,9 @@ void ESPEventLoop::post_event_data(const ESPEvent &event,
     }
 }
 
+} // namespace event
+
+} // namespace idf
 
 #endif // __cpp_exceptions
 

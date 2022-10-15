@@ -2,6 +2,7 @@
 #define APPLICATION_H
 #include <iostream>
 class LinkManager;
+class PageManager;
 class Application
 {
 public:
@@ -13,6 +14,7 @@ public:
     LinkManager * link() {return this->linkManager;}
 private:
     LinkManager *linkManager=nullptr;
+    PageManager *pageManager=nullptr;
 };
 Application* app(void);
 #endif//APPLICATION_H
