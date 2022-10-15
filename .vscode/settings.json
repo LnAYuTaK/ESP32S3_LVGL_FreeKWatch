@@ -98,8 +98,9 @@
         "filesystem": "cpp",
         "sd_fat.h": "c",
         "string.h": "c",
-        "unistd.h": "c"
+        "unistd.h": "c",
+        "lv_port_disp.c": "cpp"
     },
-    "idf.portWin": "COM12",
+    "idf.portWin": "COM7",
     "idf.flashType": "UART"
 }

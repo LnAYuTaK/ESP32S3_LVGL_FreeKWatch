@@ -7,7 +7,9 @@
 #include <utility>
 #include <functional>
 #include <list>
-
+#include <vector>
+//C
+#include "esp_err.h"
 #include "LinkConfig.h"
 #include "LinkInterface.h"
 #include "SerialLink.h"
@@ -26,6 +28,8 @@ public:
     //Save Link 
     list<SharedLinkConfigPtr>    _LinkConfigList;
     list<SharedLinkInterfacePtr> _LinkInterfaceList;
+
+    
 };
 
 #endif // LINKMANAGER_H

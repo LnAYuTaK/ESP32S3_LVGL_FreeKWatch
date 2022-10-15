@@ -687,6 +687,13 @@ E:/ESP32S3_LVGL_FreeKWatch/build/esp-idf/comm/CMakeFiles/list_install_components
 E:/ESP32S3_LVGL_FreeKWatch/build/esp-idf/comm/CMakeFiles/install.dir
 E:/ESP32S3_LVGL_FreeKWatch/build/esp-idf/comm/CMakeFiles/install/local.dir
 E:/ESP32S3_LVGL_FreeKWatch/build/esp-idf/comm/CMakeFiles/install/strip.dir
+E:/ESP32S3_LVGL_FreeKWatch/build/esp-idf/event/CMakeFiles/__idf_event.dir
+E:/ESP32S3_LVGL_FreeKWatch/build/esp-idf/event/CMakeFiles/edit_cache.dir
+E:/ESP32S3_LVGL_FreeKWatch/build/esp-idf/event/CMakeFiles/rebuild_cache.dir
+E:/ESP32S3_LVGL_FreeKWatch/build/esp-idf/event/CMakeFiles/list_install_components.dir
+E:/ESP32S3_LVGL_FreeKWatch/build/esp-idf/event/CMakeFiles/install.dir
+E:/ESP32S3_LVGL_FreeKWatch/build/esp-idf/event/CMakeFiles/install/local.dir
+E:/ESP32S3_LVGL_FreeKWatch/build/esp-idf/event/CMakeFiles/install/strip.dir
 E:/ESP32S3_LVGL_FreeKWatch/build/esp-idf/lvgl/CMakeFiles/__idf_lvgl.dir
 E:/ESP32S3_LVGL_FreeKWatch/build/esp-idf/lvgl/CMakeFiles/edit_cache.dir
 E:/ESP32S3_LVGL_FreeKWatch/build/esp-idf/lvgl/CMakeFiles/rebuild_cache.dir
@@ -722,3 +729,10 @@ E:/ESP32S3_LVGL_FreeKWatch/build/esp-idf/lvgl_porting/CMakeFiles/list_install_co
 E:/ESP32S3_LVGL_FreeKWatch/build/esp-idf/lvgl_porting/CMakeFiles/install.dir
 E:/ESP32S3_LVGL_FreeKWatch/build/esp-idf/lvgl_porting/CMakeFiles/install/local.dir
 E:/ESP32S3_LVGL_FreeKWatch/build/esp-idf/lvgl_porting/CMakeFiles/install/strip.dir
+E:/ESP32S3_LVGL_FreeKWatch/build/esp-idf/wifi/CMakeFiles/__idf_wifi.dir
+E:/ESP32S3_LVGL_FreeKWatch/build/esp-idf/wifi/CMakeFiles/edit_cache.dir
+E:/ESP32S3_LVGL_FreeKWatch/build/esp-idf/wifi/CMakeFiles/rebuild_cache.dir
+E:/ESP32S3_LVGL_FreeKWatch/build/esp-idf/wifi/CMakeFiles/list_install_components.dir
+E:/ESP32S3_LVGL_FreeKWatch/build/esp-idf/wifi/CMakeFiles/install.dir
+E:/ESP32S3_LVGL_FreeKWatch/build/esp-idf/wifi/CMakeFiles/install/local.dir
+E:/ESP32S3_LVGL_FreeKWatch/build/esp-idf/wifi/CMakeFiles/install/strip.dir

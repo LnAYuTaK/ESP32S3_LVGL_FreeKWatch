@@ -1,7 +1,7 @@
 #ifndef APPLICATION_H
 #define APPLICATION_H
 #include <iostream>
-#include "LinkManager.h"
+class LinkManager;
 class Application
 {
 public:
@@ -10,7 +10,6 @@ public:
     static Application*  _app; 
     //Init All Module
     void appInit();
-
     LinkManager * link() {return this->linkManager;}
 private:
     LinkManager *linkManager=nullptr;

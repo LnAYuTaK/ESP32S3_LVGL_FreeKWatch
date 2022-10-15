@@ -1,19 +1,15 @@
 #include "LinkManager.h"
-
 LinkManager::LinkManager()
 {
-  //初始化WIFI 并连接
-  
 
-
-    
 }
+//------------------------------------------------------------------------
 //------------------------------------------------------------------------
 SharedLinkConfigPtr
 LinkManager::createLinkConf(uart_port_t portName,int type)
 {
     LinkConfig  *conf =nullptr;
-    switch(type){
+    switch(type) {
         case LinkConfig::TypeSerial:
             conf = new SerialConfig(portName);
             _LinkConfigList.push_back(SharedLinkConfigPtr(conf));
@@ -41,11 +37,10 @@ LinkManager::createLink(SharedLinkConfigPtr config)
         break;
     case LinkConfig::TypeDefault:
         break;
+    case LinkConfig::TypeWifi:
+        break;
     }
     link.get()->connect();
-    string str = "Hello world";
-    vector<char> vec0(str.begin(), str.end()); 
-    link.get()->writeBytes(vec0);
     return true;
 }
 

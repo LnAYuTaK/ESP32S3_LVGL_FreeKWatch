@@ -3,11 +3,11 @@
         {
             "name": "Win32",
             "includePath": [
-                "${workspaceFolder}/**",
-                "E:/Espressif/frameworks/esp-idf-v4.4.2/components/**",
-                "E:/ESP32S3_LVGL_FreeKWatch/components/lvgl/**",
-                "E:/Espressif/frameworks/esp-idf-v4.4.2/components/newlib/platform_include",
-                "E:/ESP32S3_LVGL_FreeKWatch/components/**"
+                "${config:idf.espIdfPath}/components/**",
+                "${config:idf.espIdfPathWin}/components/**",
+                "${config:idf.espAdfPath}/components/**",
+                "${config:idf.espAdfPathWin}/components/**",
+                "${workspaceFolder}/**"
             ],
             "defines": [
                 "_DEBUG",

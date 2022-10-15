@@ -14,7 +14,6 @@ public:
     virtual bool isConnected   (void) const = 0;
     virtual int  writeBytes    (vector<char> &byteData) = 0;
     //virtual void readBytes   (vector<char> &byteData) = 0;
-
 protected:
     LinkInterface(SharedLinkConfigPtr &config); 
 };

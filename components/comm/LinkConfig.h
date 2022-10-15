@@ -18,6 +18,7 @@ public:
         TypeUdp,
         TypeSerial,
         TypeBluetooth,
+        TypeWifi,
         TypeDefault
     };
     virtual LinkType type() = 0;
