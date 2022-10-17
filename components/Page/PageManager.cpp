@@ -1,7 +1,6 @@
 #include "PageManager.h"
 PageManager::PageManager()
 {
-
     //src_act 始终位于最底层
     scr = lv_scr_act();
     lv_style_init(&style);

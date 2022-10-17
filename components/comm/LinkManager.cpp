@@ -1,4 +1,9 @@
 #include "LinkManager.h"
+
+//Setting 中读取
+#define RXPinNum 18
+#define TXPinNum 17
+#define PortNum  1
 LinkManager::LinkManager()
 {
 
@@ -6,12 +11,12 @@ LinkManager::LinkManager()
 //------------------------------------------------------------------------
 //------------------------------------------------------------------------
 SharedLinkConfigPtr
-LinkManager::createLinkConf(uart_port_t portName,int type)
+LinkManager::createLinkConf(int type)
 {
     LinkConfig  *conf =nullptr;
     switch(type) {
         case LinkConfig::TypeSerial:
-            conf = new SerialConfig(portName);
+            conf = new SerialConfig(PortNum,RXPinNum,TXPinNum);
             _LinkConfigList.push_back(SharedLinkConfigPtr(conf));
             break;
     }

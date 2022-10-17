@@ -1,27 +1,16 @@
-#include "esp_event.h"
-#include "esp_event_cxx.hpp"
-#include "esp_event_api.hpp"
 
-#ifdef __cpp_exceptions
-
-namespace idf {
-
-namespace event {
-
-ESPEventAPIDefault::ESPEventAPIDefault()
+#include "EventApi.h"
+EventAPIDefault::EventAPIDefault()
 {
     esp_err_t res = esp_event_loop_create_default();
-    if (res != ESP_OK) {
-        throw idf::event::EventException(res);
-    }
 }
 
-ESPEventAPIDefault::~ESPEventAPIDefault()
+EventAPIDefault::~ESPEventAPIDefault()
 {
     esp_event_loop_delete_default();
 }
 
-esp_err_t ESPEventAPIDefault::handler_register(esp_event_base_t event_base,
+esp_err_t EventAPIDefault::handler_register(esp_event_base_t event_base,
         int32_t event_id,
         esp_event_handler_t event_handler,
         void *event_handler_arg,
@@ -34,19 +23,20 @@ esp_err_t ESPEventAPIDefault::handler_register(esp_event_base_t event_base,
                                                instance);
 }
 
-esp_err_t ESPEventAPIDefault::handler_unregister(esp_event_base_t event_base,
+esp_err_t EventAPIDefault::handler_unregister(esp_event_base_t event_base,
         int32_t event_id,
         esp_event_handler_instance_t instance)
 {
     return esp_event_handler_instance_unregister(event_base, event_id, instance);
 }
 
-esp_err_t ESPEventAPIDefault::post(esp_event_base_t event_base,
+esp_err_t EventAPIDefault::post(esp_event_base_t event_base,
         int32_t event_id,
         void* event_data,
         size_t event_data_size,
         TickType_t ticks_to_wait)
-{
+{  
+    //post 回调post to
     return esp_event_post(event_base,
                           event_id,
                           event_data,
@@ -108,8 +98,5 @@ esp_err_t ESPEventAPICustom::run(TickType_t ticks_to_run)
     return esp_event_loop_run(event_loop, ticks_to_run);
 }
 
-} // event
-
-} // idf
 
 #endif // __cpp_exceptions

@@ -22,14 +22,12 @@ class LinkManager   //Singleton
 public:
     LinkManager();
     //创建Link配置统一接口
-    SharedLinkConfigPtr  createLinkConf(uart_port_t portName,int type);
+    SharedLinkConfigPtr  createLinkConf(int type);
     //创建Link连接接口
     bool  createLink(SharedLinkConfigPtr config);
     //Save Link 
     list<SharedLinkConfigPtr>    _LinkConfigList;
     list<SharedLinkInterfacePtr> _LinkInterfaceList;
-
-    
 };
 
 #endif // LINKMANAGER_H

@@ -14,23 +14,84 @@ extern "C"
 #include "lv_fs_if.h"
 #include "wifi.h"
 }
-extern "C" void app_main(void)
+
+static const int RX_BUF_SIZE = 1024;
+
+#define TXD_PIN (GPIO_NUM_17)
+#define RXD_PIN (GPIO_NUM_18)
+#define UART_NUM (UART_NUM_1)
+
+void init(void) {
+    
+    const uart_config_t uart_config = {
+        .baud_rate = 115200,
+        .data_bits = UART_DATA_8_BITS,
+        .parity = UART_PARITY_DISABLE,
+        .stop_bits = UART_STOP_BITS_1,
+        .flow_ctrl = UART_HW_FLOWCTRL_DISABLE,
+        .source_clk = UART_SCLK_APB,
+    };
+    // We won't use a buffer for sending data.
+    uart_driver_install(UART_NUM, RX_BUF_SIZE * 2, 0, 0, NULL, 0);
+    uart_param_config(UART_NUM, &uart_config);
+    uart_set_pin(UART_NUM, TXD_PIN, RXD_PIN, UART_PIN_NO_CHANGE, UART_PIN_NO_CHANGE);
+}
+
+int sendData(const char* logName, const char* data)
+{
+    const int len = strlen(data);
+    const int txBytes = uart_write_bytes(UART_NUM, data, len);
+    ESP_LOGI(logName, "Wrote %d bytes", txBytes);
+    return txBytes;
+}
+static void tx_task(void *arg)
+{
+    static const char *TX_TASK_TAG = "TX_TASK";
+    esp_log_level_set(TX_TASK_TAG, ESP_LOG_INFO);
+    while (1) {
+        sendData(TX_TASK_TAG, "Hello world");
+        vTaskDelay(2000 / portTICK_PERIOD_MS);
+    }
+}
+
+static void rx_task(void *arg)
+{
+    static const char *RX_TASK_TAG = "RX_TASK";
+    esp_log_level_set(RX_TASK_TAG, ESP_LOG_INFO);
+    uint8_t* data = (uint8_t*) malloc(RX_BUF_SIZE+1);
+    while (1) {
+        ESP_LOGI(RX_TASK_TAG, "IN RX");
+        const int rxBytes = uart_read_bytes(UART_NUM, data, RX_BUF_SIZE, 1000 / portTICK_RATE_MS);
+
+        printf("rxBytes: %d\n",rxBytes);
+        if (rxBytes > 0) {
+            data[rxBytes] = 0;
+            ESP_LOGI(RX_TASK_TAG, "Read %d bytes: '%s'", rxBytes, data);
+            ESP_LOG_BUFFER_HEXDUMP(RX_TASK_TAG, data, rxBytes, ESP_LOG_INFO);
+        }
+    }
+    free(data);
+}
+extern "C" void app_main(void) 
 {
     //初始化LVGL
     Application* app = new Application();
-    lv_init();
-    init_nvs();
-    wifi_init_sta();
-    //初始化LVGL显示端口
-    lv_port_disp_init();
+    // lv_init();
+    // init_nvs();
+    // wifi_init_sta();
+    init();
+    xTaskCreate(rx_task, "uart_rx_task", 1024*2, NULL, configMAX_PRIORITIES, NULL);
+    xTaskCreate(tx_task, "uart_tx_task", 1024*2, NULL, configMAX_PRIORITIES-1, NULL);
+    // //初始化LVGL显示端口
+    // lv_port_disp_init();
     //输入接口初始化
     //初始化文件系统
     //lv_fs_if_init();
     app->appInit();
-    for(;;) {
-        lv_task_handler();
-        lv_tick_inc(10);
-        vTaskDelay(10);
-    }
+    // for(;;) {
+    //     lv_task_handler();
+    //     lv_tick_inc(5);
+    //     vTaskDelay(5);
+    // }
     
 }
