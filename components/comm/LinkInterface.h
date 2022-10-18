@@ -12,7 +12,7 @@ public:
     virtual bool connect       (void) = 0;
     virtual void disconnect    (void) = 0;
     virtual bool isConnected   (void) const = 0;
-    virtual int  writeBytes    (vector<char> &byteData) = 0;
+    virtual int  writeBytes    (char *buf,int len) = 0;
     //virtual void readBytes   (vector<char> &byteData) = 0;
 protected:
     LinkInterface(SharedLinkConfigPtr &config); 

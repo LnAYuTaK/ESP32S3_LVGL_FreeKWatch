@@ -3,7 +3,9 @@
         {
             "name": "Win32",
             "includePath": [
-                "${workspaceFolder}/**"
+                "${workspaceFolder}/**",
+                "E:/Espressif/frameworks/esp-idf-v4.4.2/components/**",
+                "E:/Espressif/frameworks/esp-idf-v4.4.2/components/esp_event/**"
             ],
             "defines": [
                 "_DEBUG",

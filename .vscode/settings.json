@@ -1,7 +1,10 @@
 {
     "idf.adapterTargetName": "esp32s3",
+    "idf.portWin": "COM7",
     "files.associations": {
-        "string": "cpp",
+        "memory": "cpp",
+        "iostream": "cpp",
+        "list": "cpp",
         "algorithm": "cpp",
         "array": "cpp",
         "atomic": "cpp",
@@ -39,14 +42,11 @@
         "iomanip": "cpp",
         "ios": "cpp",
         "iosfwd": "cpp",
-        "iostream": "cpp",
         "istream": "cpp",
         "iterator": "cpp",
         "limits": "cpp",
-        "list": "cpp",
         "locale": "cpp",
         "map": "cpp",
-        "memory": "cpp",
         "mutex": "cpp",
         "new": "cpp",
         "numeric": "cpp",
@@ -61,6 +61,7 @@
         "stdexcept": "cpp",
         "stop_token": "cpp",
         "streambuf": "cpp",
+        "string": "cpp",
         "strstream": "cpp",
         "system_error": "cpp",
         "thread": "cpp",
@@ -86,6 +87,8 @@
         "xstring": "cpp",
         "xtr1common": "cpp",
         "xtree": "cpp",
-        "xutility": "cpp"
+        "xutility": "cpp",
+        "wifi.h": "c",
+        "wifipic.c": "cpp"
     }
 }

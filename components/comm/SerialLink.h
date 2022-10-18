@@ -26,7 +26,7 @@ using namespace std;
 class SerialConfig : public LinkConfig
 {
 public:
-    SerialConfig(uart_port_t portName,int RxPortNum,int TxPortNum);
+    SerialConfig();
     //Get      
     uart_port_t            portName ()         { return _portName; }
     uart_config_t *        uartConfig()        { return &_uart_config;}
@@ -59,7 +59,7 @@ public:
     bool connect     ()override;
     void disconnect  ()override;
     bool isConnected ()const override {return _serialLinkState;}
-    int  writeBytes  (vector<char> &byteData)override;
+    int  writeBytes  (char *buf,int len )override;
 private:
     void _readBytes  ();
     SerialConfig*    _serialConfig;

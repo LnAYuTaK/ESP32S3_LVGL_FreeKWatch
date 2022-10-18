@@ -25,6 +25,5 @@ static const char *TAG = "wifi station";
 static int s_retry_num = 0;
 static EventGroupHandle_t s_wifi_event_group;
 void  wifi_init_sta(void);
-//... 正常的声明段
 #endif
 

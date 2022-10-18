@@ -1,26 +1,24 @@
 #include "LinkManager.h"
+ESP_EVENT_DEFINE_BASE(TIMER_EVENTS);
 
-//Setting 中读取
-#define RXPinNum 18
-#define TXPinNum 17
-#define PortNum  1
 LinkManager::LinkManager()
 {
 
 }
+
 //------------------------------------------------------------------------
-//------------------------------------------------------------------------
-SharedLinkConfigPtr
+SharedLinkConfigPtr 
 LinkManager::createLinkConf(int type)
 {
+    cout << "Create LinkConf" << endl;
     LinkConfig  *conf =nullptr;
     switch(type) {
         case LinkConfig::TypeSerial:
-            conf = new SerialConfig(PortNum,RXPinNum,TXPinNum);
+            conf = new SerialConfig();
             _LinkConfigList.push_back(SharedLinkConfigPtr(conf));
             break;
     }
-    if(conf) {
+    if(conf){
         return _LinkConfigList.back();
     }
     return nullptr;
@@ -45,14 +43,13 @@ LinkManager::createLink(SharedLinkConfigPtr config)
     case LinkConfig::TypeWifi:
         break;
     }
-    link.get()->connect();
-    return true;
+    if(link) {
+       link.get()->connect();
+       return true;
+    }
+    return false;
 }
-
-
-
-
-
+//------------------------------------------------------------------------
 
 
 

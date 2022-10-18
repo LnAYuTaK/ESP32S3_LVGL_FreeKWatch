@@ -1,4 +1,4 @@
-# Install script for directory: E:/Espressif/frameworks/esp-idf-v4.4.2/examples/cxx/experimental/experimental_cpp_component
+# Install script for directory: E:/ESP32S3_LVGL_FreeKWatch/components/Resources
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)

@@ -7,7 +7,8 @@ idf_component_register(SRCS	${SOURCES}
                     REQUIRES 
                     esp_wifi
                     nvs_flash
-                    esp_event)
+                    esp_event
+                    event)
 
 
 

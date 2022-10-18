@@ -1,10 +1,16 @@
 #include "SerialLink.h"
-SerialConfig::SerialConfig(uart_port_t portName,int RxPortNum,int TxPortNum)
+//Setting 中读取
+
+#define RXPinNum 18
+#define TXPinNum 17
+#define PortNum  UART_NUM_0
+#define UARTBUFSIZE (2048)
+SerialConfig::SerialConfig()
     :LinkConfig()
-    ,_portName(portName)
-    ,_rtBufSize(1024)
-    ,_RxPinNum(RXPortNum)
-    ,_TxPortNum(TxPortNum)
+    ,_portName(PortNum)
+    ,_rtBufSize(UARTBUFSIZE)
+    ,_RxPinNum(RXPinNum)
+    ,_TxPinNum(TXPinNum)
 {
     //default Setting
     _uart_config.baud_rate  = 115200;
@@ -48,30 +54,32 @@ SerialConfig::setDataBits(uart_word_length_t dataBits)
 void 
 SerialConfig::setPortName(uart_port_t portName)
 {
-    _portName= portName;
+    if(portName <= UART_NUM_MAX-1) {
+        _portName= portName;
+    }
 }
 //------------------------------------------------------------------------
 void 
-SerialConfig::setRTBufSize(int bufSize)
+SerialConfig::setRTBufSize(const int bufSize)
 {
-    if(bufSize > 2048) {
-        _rtBufSize = 2048;
-    }
-    else{
-        _rtBufSize = bufSize;
-    }
+    bufSize>2048?(_rtBufSize = 2048):(_rtBufSize = bufSize);
 }
 //------------------------------------------------------------------------
 void
 SerialConfig::setRxPinNum(const int RxPinNum)
 {
-    _RxPinNum = RxPinNum;
+    
+    if(RxPinNum<=48){
+        _RxPinNum = RxPinNum;
+    }
 }
 //------------------------------------------------------------------------
 void
-SerialConfig::setRxPinNum(const int TxPinNum)
+SerialConfig::setTxPinNum(const int TxPinNum)
 {
-    _TxPinNum = TxPinNum;
+    if(TxPinNum<=48){
+        _TxPinNum = TxPinNum;
+    }
 }
 //------------------------------------------------------------------------
 SerialLink::SerialLink(SharedLinkConfigPtr& config)
@@ -92,9 +100,9 @@ SerialLink::~SerialLink()
 bool
 SerialLink::connect()
 {
-    uart_driver_install(_serialConfig->portName(), 2*1024, 0, 0, NULL, 0);
+    uart_driver_install(_serialConfig->portName(),UARTBUFSIZE, 0, 0, NULL, 0);
     uart_param_config(_serialConfig->portName(),_serialConfig->uartConfig());
-    uart_set_pin(_serialConfig->portName(),uartTxPin,uartRXPin,UART_PIN_NO_CHANGE, UART_PIN_NO_CHANGE);
+    //uart_set_pin(_serialConfig->portName(),TXPinNum,RXPinNum,UART_PIN_NO_CHANGE, UART_PIN_NO_CHANGE);
     return uart_is_driver_installed(_serialConfig->portName());
 }
 //------------------------------------------------------------------------
@@ -107,10 +115,9 @@ SerialLink::disconnect()
 }
 //------------------------------------------------------------------------
 int 
-SerialLink::writeBytes(vector<char> &byteData)
+SerialLink::writeBytes(char *buf,int len)
 {
-    char *_byteData = &byteData[0];
-    return uart_write_bytes(_serialConfig->portName(),(const char *)_byteData,strlen(_byteData));
+  return uart_write_bytes(_serialConfig->portName(),buf,len);
 }
 //------------------------------------------------------------------------
 
