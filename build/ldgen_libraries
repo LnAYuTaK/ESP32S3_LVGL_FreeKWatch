@@ -72,12 +72,13 @@ E:/ESP32S3_LVGL_FreeKWatch/build/esp-idf/ulp/libulp.a
 E:/ESP32S3_LVGL_FreeKWatch/build/esp-idf/wifi_provisioning/libwifi_provisioning.a
 E:/ESP32S3_LVGL_FreeKWatch/build/esp-idf/main/libmain.a
 E:/ESP32S3_LVGL_FreeKWatch/build/esp-idf/lvgl/liblvgl.a
-E:/ESP32S3_LVGL_FreeKWatch/build/esp-idf/lvgl_esp32_drivers/liblvgl_esp32_drivers.a
 E:/ESP32S3_LVGL_FreeKWatch/build/esp-idf/Resources/libResources.a
-E:/ESP32S3_LVGL_FreeKWatch/build/esp-idf/Page/libPage.a
 E:/ESP32S3_LVGL_FreeKWatch/build/esp-idf/event/libevent.a
 E:/ESP32S3_LVGL_FreeKWatch/build/esp-idf/comm/libcomm.a
 E:/ESP32S3_LVGL_FreeKWatch/build/esp-idf/sd_fat/libsd_fat.a
 E:/ESP32S3_LVGL_FreeKWatch/build/esp-idf/lv_fs_if/liblv_fs_if.a
+E:/ESP32S3_LVGL_FreeKWatch/build/esp-idf/lvgl_cpp/liblvgl_cpp.a
+E:/ESP32S3_LVGL_FreeKWatch/build/esp-idf/lvgl_esp32_drivers/liblvgl_esp32_drivers.a
 E:/ESP32S3_LVGL_FreeKWatch/build/esp-idf/lvgl_porting/liblvgl_porting.a
+E:/ESP32S3_LVGL_FreeKWatch/build/esp-idf/page/libpage.a
 E:/ESP32S3_LVGL_FreeKWatch/build/esp-idf/wifi/libwifi.a

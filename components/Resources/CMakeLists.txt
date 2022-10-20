@@ -1,4 +1,4 @@
-file(GLOB_RECURSE SOURCES 	./background.c 
+file(GLOB_RECURSE SOURCES 	./img_cogwheel_argb.c 
 							)
 
 idf_component_register(SRCS	${SOURCES}

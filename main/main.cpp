@@ -7,13 +7,12 @@
 #include "sdkconfig.h"
 #include "freertos/FreeRTOS.h"
 #include "freertos/task.h"
-extern "C"
-{
 #include "lvgl.h"
 #include "lv_port_disp.c"
 #include "lv_fs_if.h"
+extern "C"
+{
 #include "wifi.h"
-#include "background.c"
 }
 
 extern "C" void app_main(void) 
@@ -27,11 +26,6 @@ extern "C" void app_main(void)
     // wifi_init_sta();
     //应用层组件初始化
     Application* app = new Application();
-   
-   lv_obj_t * icon = lv_img_create(lv_scr_act());
-/*From variable*/
-    LV_IMG_DECLARE(background );
-    lv_img_set_src(icon, &background);
     app->appInit();
     for(;;) {
          lv_task_handler();

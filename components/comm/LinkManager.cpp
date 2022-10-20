@@ -10,7 +10,6 @@ LinkManager::LinkManager()
 SharedLinkConfigPtr 
 LinkManager::createLinkConf(int type)
 {
-    cout << "Create LinkConf" << endl;
     LinkConfig  *conf =nullptr;
     switch(type) {
         case LinkConfig::TypeSerial:
