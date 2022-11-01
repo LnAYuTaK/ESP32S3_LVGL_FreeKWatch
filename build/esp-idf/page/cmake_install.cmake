@@ -1,4 +1,4 @@
-# Install script for directory: E:/ESP32S3_LVGL_FreeKWatch/components/page
+# Install script for directory: C:/Users/Administrator/Desktop/ESP32Project/components/page
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)

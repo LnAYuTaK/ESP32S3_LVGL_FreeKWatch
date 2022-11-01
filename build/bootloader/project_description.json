@@ -1,8 +1,8 @@
 {
     "project_name":       "bootloader",
     "project_path":       "E:/Espressif/frameworks/esp-idf-v4.4.2/components/bootloader/subproject",
-    "build_dir":          "E:/ESP32S3_LVGL_FreeKWatch/build/bootloader",
-    "config_file":        "E:/ESP32S3_LVGL_FreeKWatch/sdkconfig",
+    "build_dir":          "C:/Users/Administrator/Desktop/ESP32Project/build/bootloader",
+    "config_file":        "C:/Users/Administrator/Desktop/ESP32Project/sdkconfig",
     "config_defaults":    "",
     "app_elf":            "bootloader.elf",
     "app_bin":            "bootloader.bin",

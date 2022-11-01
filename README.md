@@ -1,2 +1,0 @@
-# ESP32S3_LVGL_FreeKWatch
-ESP32s3+ LVGL

@@ -5,15 +5,15 @@ cmake_minimum_required(VERSION 3.5)
 
 file(MAKE_DIRECTORY
   "E:/Espressif/frameworks/esp-idf-v4.4.2/components/bootloader/subproject"
-  "E:/ESP32S3_LVGL_FreeKWatch/build/bootloader"
-  "E:/ESP32S3_LVGL_FreeKWatch/build/bootloader-prefix"
-  "E:/ESP32S3_LVGL_FreeKWatch/build/bootloader-prefix/tmp"
-  "E:/ESP32S3_LVGL_FreeKWatch/build/bootloader-prefix/src/bootloader-stamp"
-  "E:/ESP32S3_LVGL_FreeKWatch/build/bootloader-prefix/src"
-  "E:/ESP32S3_LVGL_FreeKWatch/build/bootloader-prefix/src/bootloader-stamp"
+  "C:/Users/Administrator/Desktop/ESP32Project/build/bootloader"
+  "C:/Users/Administrator/Desktop/ESP32Project/build/bootloader-prefix"
+  "C:/Users/Administrator/Desktop/ESP32Project/build/bootloader-prefix/tmp"
+  "C:/Users/Administrator/Desktop/ESP32Project/build/bootloader-prefix/src/bootloader-stamp"
+  "C:/Users/Administrator/Desktop/ESP32Project/build/bootloader-prefix/src"
+  "C:/Users/Administrator/Desktop/ESP32Project/build/bootloader-prefix/src/bootloader-stamp"
 )
 
 set(configSubDirs )
 foreach(subDir IN LISTS configSubDirs)
-    file(MAKE_DIRECTORY "E:/ESP32S3_LVGL_FreeKWatch/build/bootloader-prefix/src/bootloader-stamp/${subDir}")
+    file(MAKE_DIRECTORY "C:/Users/Administrator/Desktop/ESP32Project/build/bootloader-prefix/src/bootloader-stamp/${subDir}")
 endforeach()
