@@ -1,4 +1,4 @@
-# Install script for directory: C:/Users/Administrator/Desktop/ESP32Project/components/lvgl_porting
+# Install script for directory: E:/ESP32Watch/ESP32S3_LVGL_FreeKWatch/components/lvgl_porting
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)

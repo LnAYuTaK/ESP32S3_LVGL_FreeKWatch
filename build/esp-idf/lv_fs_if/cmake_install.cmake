@@ -1,4 +1,4 @@
-# Install script for directory: C:/Users/Administrator/Desktop/ESP32Project/components/lv_fs_if
+# Install script for directory: E:/ESP32Watch/ESP32S3_LVGL_FreeKWatch/components/lv_fs_if
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)

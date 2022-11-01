@@ -1,4 +1,4 @@
-# Install script for directory: C:/Users/Administrator/Desktop/ESP32Project/components/lvgl_esp32_drivers
+# Install script for directory: E:/ESP32Watch/ESP32S3_LVGL_FreeKWatch/components/lvgl_esp32_drivers
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
