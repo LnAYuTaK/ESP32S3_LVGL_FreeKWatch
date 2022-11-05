@@ -1,8 +1,8 @@
 #include "wifi.h"
 
-
+static int s_retry_num = 0;
+static EventGroupHandle_t s_wifi_event_group;
 static const char *TAG = "NET";
-
 //查询IP
 void 
 task_wifi_scan(void *arg){
@@ -78,7 +78,7 @@ init_nvs()
 }
 //------------------------------------------------------------------------
 static void 
-wifi_init_sta(void)
+wifi_init_sta(char SSID[],char PASSWD[])
 {
     s_wifi_event_group = xEventGroupCreate();
 
@@ -102,12 +102,9 @@ wifi_init_sta(void)
                                                         &wifiEventHandler,
                                                         NULL,
                                                         &instance_got_ip));
-
-
-
     wifi_config_t wifi_config = {
         .sta = {
-            .ssid = EXAMPLE_ESP_WIFI_SSID,
+            .ssid =   EXAMPLE_ESP_WIFI_SSID,
             .password = EXAMPLE_ESP_WIFI_PASS,
             /* Setting a password implies station will connect to all security modes including WEP/WPA.
              * However these modes are deprecated and not advisable to be used. Incase your Access point
@@ -115,24 +112,13 @@ wifi_init_sta(void)
         },
     };
     ESP_ERROR_CHECK(esp_wifi_set_mode(WIFI_MODE_STA) );
-    ESP_ERROR_CHECK(esp_wifi_set_config(WIFI_IF_STA, &wifi_config) );
+    ESP_ERROR_CHECK(esp_wifi_set_config(WIFI_IF_STA,&(wifi_config)));
     ESP_ERROR_CHECK(esp_wifi_start() );
-
     EventBits_t bits = xEventGroupWaitBits(s_wifi_event_group,
             WIFI_CONNECTED_BIT | WIFI_FAIL_BIT,
             pdFALSE,
             pdFALSE,
             portMAX_DELAY);
-
-    if (bits & WIFI_CONNECTED_BIT) {
-        ESP_LOGI(TAG, "connected to ap SSID:%s password:%s",
-                 EXAMPLE_ESP_WIFI_SSID, EXAMPLE_ESP_WIFI_PASS);
-    } else if (bits & WIFI_FAIL_BIT) {
-        ESP_LOGI(TAG, "Failed to connect to SSID:%s, password:%s",
-                 EXAMPLE_ESP_WIFI_SSID, EXAMPLE_ESP_WIFI_PASS);
-    } else {
-        ESP_LOGE(TAG, "UNEXPECTED EVENT");
-    }
 }
 //-------------------------------------------------------
 static void 
@@ -157,7 +143,7 @@ obtain_time()
     time_t now = 0;
     struct tm timeinfo = {0};
     int retry = 0;
-    const int retry_count = 10;
+    const int retry_count = 3;
     while (sntp_get_sync_status() == SNTP_SYNC_STATUS_RESET && ++retry < retry_count)
     {
         ESP_LOGI(TAG, "Waiting for system time to be set... (%d/%d)", retry, retry_count);
@@ -165,35 +151,19 @@ obtain_time()
     }
     time(&now);
     localtime_r(&now, &timeinfo);
+    setenv("TZ", "CST-8", 1);//设置为东八区，中国是东八区
+    tzset();
 }
 //-------------------------------------------------------
 void 
 netInit()
 { 
-    time_t now;         
-    struct tm timeinfo; 
     //初始化NVS
     init_nvs();
-    wifi_init_sta();
-    //时间获取
+    //连接wifi
+    wifi_init_sta(EXAMPLE_ESP_WIFI_SSID,EXAMPLE_ESP_WIFI_PASS);
+    //时间授时获取
     obtain_time(); 
-    time(&now);                   //获取总秒数时间
-    localtime_r(&now, &timeinfo); //将now unix时间戳格式转为timeinfo时间结构体
-    // Is time set? If not, tm_year will be (1970 - 1900).
-    if (timeinfo.tm_year < (2016 - 1900)) //判断timeinfo是否正确否者重新获取
-    {
-        ESP_LOGI(TAG, "Time is not set yet. Connecting to WiFi and getting time over NTP.");
-        obtain_time(); //获取时间
-        // update 'now' variable with current time
-        time(&now); //获取总秒数时间
-    }
-        time(&now);//获取unix时间戳
-        setenv("TZ", "CST-8", 1);//设置为东八区，中国是东八区
-        tzset();
-        localtime_r(&now, &timeinfo);//转为tm结构体
-        ESP_LOGI(TAG, "实时时间：周%d,%d年:%d月:%d日,%d:%d:%d", timeinfo.tm_wday, timeinfo.tm_year + 1900, timeinfo.tm_mon + 1, timeinfo.tm_mday, timeinfo.tm_hour, timeinfo.tm_min, timeinfo.tm_sec);
-        vTaskDelay(1000 / portTICK_PERIOD_MS);
-        //vTaskDelay(1000 / portTICK_PERIOD_MS);
 }
 
 //------------------------------------------------------------------------

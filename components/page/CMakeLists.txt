@@ -8,8 +8,5 @@ idf_component_register(SRCS	${SOURCES}
                               lvgl_esp32_drivers
                               res
                               lvgl_porting
-                              esp_event)
-
-
-
-
+                              esp_event
+                              wifi)

@@ -21,7 +21,17 @@
         "timeb.h": "c",
         "string.h": "c",
         "lv_fs_if.h": "c",
-        "mainpagecontrol.h": "c"
+        "mainpagecontrol.h": "c",
+        "stdio.h": "c",
+        "*.inc": "c",
+        "rotary_encoder.h": "c",
+        "lv_task.h": "c",
+        "musicpage.h": "c",
+        "test.h": "c",
+        "charconv": "c",
+        "xstring": "c",
+        "*.ipp": "c",
+        "commoncontrol.h": "c"
     },
-    "idf.portWin": "COM7"
+    "idf.portWin": "COM12"
 }

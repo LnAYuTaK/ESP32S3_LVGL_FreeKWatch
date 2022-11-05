@@ -19,19 +19,23 @@
 extern lv_obj_t  *  page_manager;
 extern lv_obj_t  *  main_page;
 extern lv_obj_t  *  wifiPage; 
-extern lv_group_t*  group;
+extern lv_obj_t  *  musicPage;
 /**********************
  * GLOBAL PROTOTYPES
  **********************/
 void PageInit();
-static void button_event_cb(lv_event_t* event);
-static void initMainPage(lv_obj_t * page);
+// static void button_event_cb(lv_event_t* event);
+void initMainPage(lv_obj_t * page);
+void mainGroupLoad(lv_obj_t * page);
 // static void open_page_anim(lv_obj_t * obj);
 // static void close_page_anim(lv_obj_t * obj);
 /*=====================
  * Setter functions
  *====================*/
-
+typedef struct mainPageGroup
+{
+    lv_obj_t *strcollbar;
+}mainGroup_t;
 
 /*=====================
  * Getter functions

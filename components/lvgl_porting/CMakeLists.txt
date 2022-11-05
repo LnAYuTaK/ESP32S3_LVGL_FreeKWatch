@@ -6,4 +6,5 @@ idf_component_register(SRCS	${SOURCES}
 								.
                     REQUIRES  lvgl
                               lvgl_esp32_drivers
+                              rotary_encoder
                               )

@@ -10,13 +10,10 @@
  *      INCLUDES
  *********************/
 #include "lv_port_indev.h"
-#define ENCODER_A       (gpio_num_t)36          /* 编码器A端 */
-#define ENCODER_B       (gpio_num_t)37        /* 编码器B端 */
-#define ENCODER_PUSH    (gpio_num_t)35          /* 编码器KEY端 */
- 
-#define ENCODER_A_GPIO_PIN_SEL      (1ULL<<36)
-#define ENCODER_B_GPIO_PIN_SEL      (1ULL<<37)
-#define ENCODER_PUSH_GPIO_PIN_SEL   (1ULL<<35)      /* 编码器KEY GPIO bit 掩码 */
+#include "rotary_encoder.h"
+#define     EC11_A_PIN     39    //编码器通道一
+#define     EC11_B_PIN     40    //编码器通道二
+#define     EC11_K_PIN     38    //编码器按键通道
 
 /*********************
  *      DEFINES
@@ -30,52 +27,51 @@
  *  STATIC PROTOTYPES
  **********************/
 
-static void touchpad_init(void);
-static void touchpad_read(lv_indev_drv_t * indev_drv, lv_indev_data_t * data);
-static bool touchpad_is_pressed(void);
-static void touchpad_get_xy(lv_coord_t * x, lv_coord_t * y);
+// static void touchpad_init(void);
+// static void touchpad_read(lv_indev_drv_t * indev_drv, lv_indev_data_t * data);
+// static bool touchpad_is_pressed(void);
+// static void touchpad_get_xy(lv_coord_t * x, lv_coord_t * y);
 
 
 
-static void mouse_init(void);
-static void mouse_read(lv_indev_drv_t * indev_drv, lv_indev_data_t * data);
-static bool mouse_is_pressed(void);
-static void mouse_get_xy(lv_coord_t * x, lv_coord_t * y);
+// static void mouse_init(void);
+// static void mouse_read(lv_indev_drv_t * indev_drv, lv_indev_data_t * data);
+// static bool mouse_is_pressed(void);
+// static void mouse_get_xy(lv_coord_t * x, lv_coord_t * y);
 
 
 
-static void keypad_init(void);
-static void keypad_read(lv_indev_drv_t * indev_drv, lv_indev_data_t * data);
-static uint32_t keypad_get_key(void);
+// static void keypad_init(void);
+// static void keypad_read(lv_indev_drv_t * indev_drv, lv_indev_data_t * data);
+// static uint32_t keypad_get_key(void);
 
 
 
 //使用编码器
-static int32_t encoder_diff = 0;
-static lv_indev_state_t encoder_state = LV_INDEV_STATE_RELEASED;
- 
-static bool  Encoder_Diff_Enable = true;//拨轮按钮的旋转功能是否开启(主要是摁下后关闭)
-static xQueueHandle gpio_evt_queue = NULL;//数据队列：打印拨轮上出现变化的gpio口及变化情况（25/26），用于硬件测试
+lv_indev_t * indev_encoder;
+
+static int32_t encoder_diff;
+static lv_indev_state_t encoder_state;
 
 static void encoder_init(void);
 static void encoder_read(lv_indev_drv_t * indev_drv, lv_indev_data_t * data);
-static void encoder_handler(void *arg);
+static void encoder_handler();
 
 
-static void button_init(void);
-static void button_read(lv_indev_drv_t * indev_drv, lv_indev_data_t * data);
-static int8_t button_get_pressed_id(void);
-static bool button_is_pressed(uint8_t id);
+// static void button_init(void);
+// static void button_read(lv_indev_drv_t * indev_drv, lv_indev_data_t * data);
+// static int8_t button_get_pressed_id(void);
+// static bool button_is_pressed(uint8_t id);
 
 /**********************
  *  STATIC VARIABLES
  **********************/
 lv_group_t*  group;
-lv_indev_t * indev_touchpad;
-lv_indev_t * indev_mouse;
-lv_indev_t * indev_keypad;
+// lv_indev_t * indev_touchpad;
+// lv_indev_t * indev_mouse;
+// lv_indev_t * indev_keypad;
 lv_indev_t * indev_encoder;
-lv_indev_t * indev_button;
+// lv_indev_t * indev_button;
 
 /**********************
  *      MACROS
@@ -167,9 +163,8 @@ void lv_port_indev_init(void)
     indev_drv.read_cb = encoder_read;
     indev_encoder = lv_indev_drv_register(&indev_drv);
     group = lv_group_create();
-    lv_indev_set_group(indev_encoder , group);
+    lv_indev_set_group(indev_encoder,group);
     lv_group_set_default(group);
-
     /*Later you should create group(s) with `lv_group_t * group = lv_group_create()`,
      *add objects to the group with `lv_group_add_obj(group, obj)`
      *and assign this input device to group to navigate in it:
@@ -206,283 +201,259 @@ void lv_port_indev_init(void)
  * Touchpad
  * -----------------*/
 
-/*Initialize your touchpad*/
-static void touchpad_init(void)
-{
-    /*Your code comes here*/
-}
+// /*Initialize your touchpad*/
+// static void touchpad_init(void)
+// {
+//     /*Your code comes here*/
+// }
 
-/*Will be called by the library to read the touchpad*/
-static void touchpad_read(lv_indev_drv_t * indev_drv, lv_indev_data_t * data)
-{
-    static lv_coord_t last_x = 0;
-    static lv_coord_t last_y = 0;
+// /*Will be called by the library to read the touchpad*/
+// static void touchpad_read(lv_indev_drv_t * indev_drv, lv_indev_data_t * data)
+// {
+//     static lv_coord_t last_x = 0;
+//     static lv_coord_t last_y = 0;
 
-    /*Save the pressed coordinates and the state*/
-    if(touchpad_is_pressed()) {
-        touchpad_get_xy(&last_x, &last_y);
-        data->state = LV_INDEV_STATE_PR;
-    }
-    else {
-        data->state = LV_INDEV_STATE_REL;
-    }
+//     /*Save the pressed coordinates and the state*/
+//     if(touchpad_is_pressed()) {
+//         touchpad_get_xy(&last_x, &last_y);
+//         data->state = LV_INDEV_STATE_PR;
+//     }
+//     else {
+//         data->state = LV_INDEV_STATE_REL;
+//     }
 
-    /*Set the last pressed coordinates*/
-    data->point.x = last_x;
-    data->point.y = last_y;
-}
+//     /*Set the last pressed coordinates*/
+//     data->point.x = last_x;
+//     data->point.y = last_y;
+// }
 
-/*Return true is the touchpad is pressed*/
-static bool touchpad_is_pressed(void)
-{
-    /*Your code comes here*/
+// /*Return true is the touchpad is pressed*/
+// static bool touchpad_is_pressed(void)
+// {
+//     /*Your code comes here*/
 
-    return false;
-}
+//     return false;
+// }
 
-/*Get the x and y coordinates if the touchpad is pressed*/
-static void touchpad_get_xy(lv_coord_t * x, lv_coord_t * y)
-{
-    /*Your code comes here*/
+// /*Get the x and y coordinates if the touchpad is pressed*/
+// static void touchpad_get_xy(lv_coord_t * x, lv_coord_t * y)
+// {
+//     /*Your code comes here*/
 
-    (*x) = 0;
-    (*y) = 0;
-}
+//     (*x) = 0;
+//     (*y) = 0;
+// }
 
-/*------------------
- * Mouse
- * -----------------*/
+// /*------------------
+//  * Mouse
+//  * -----------------*/
 
-/*Initialize your mouse*/
-static void mouse_init(void)
-{
-    /*Your code comes here*/
-}
+// /*Initialize your mouse*/
+// static void mouse_init(void)
+// {
+//     /*Your code comes here*/
+// }
 
-/*Will be called by the library to read the mouse*/
-static void mouse_read(lv_indev_drv_t * indev_drv, lv_indev_data_t * data)
-{
-    /*Get the current x and y coordinates*/
-    mouse_get_xy(&data->point.x, &data->point.y);
+// /*Will be called by the library to read the mouse*/
+// static void mouse_read(lv_indev_drv_t * indev_drv, lv_indev_data_t * data)
+// {
+//     /*Get the current x and y coordinates*/
+//     mouse_get_xy(&data->point.x, &data->point.y);
 
-    /*Get whether the mouse button is pressed or released*/
-    if(mouse_is_pressed()) {
-        data->state = LV_INDEV_STATE_PR;
-    }
-    else {
-        data->state = LV_INDEV_STATE_REL;
-    }
-}
+//     /*Get whether the mouse button is pressed or released*/
+//     if(mouse_is_pressed()) {
+//         data->state = LV_INDEV_STATE_PR;
+//     }
+//     else {
+//         data->state = LV_INDEV_STATE_REL;
+//     }
+// }
 
-/*Return true is the mouse button is pressed*/
-static bool mouse_is_pressed(void)
-{
-    /*Your code comes here*/
+// /*Return true is the mouse button is pressed*/
+// static bool mouse_is_pressed(void)
+// {
+//     /*Your code comes here*/
 
-    return false;
-}
+//     return false;
+// }
 
-/*Get the x and y coordinates if the mouse is pressed*/
-static void mouse_get_xy(lv_coord_t * x, lv_coord_t * y)
-{
-    /*Your code comes here*/
+// /*Get the x and y coordinates if the mouse is pressed*/
+// static void mouse_get_xy(lv_coord_t * x, lv_coord_t * y)
+// {
+//     /*Your code comes here*/
 
-    (*x) = 0;
-    (*y) = 0;
-}
+//     (*x) = 0;
+//     (*y) = 0;
+// }
 
-/*------------------
- * Keypad
- * -----------------*/
+// /*------------------
+//  * Keypad
+//  * -----------------*/
 
-/*Initialize your keypad*/
-static void keypad_init(void)
-{
-    /*Your code comes here*/
-}
+// /*Initialize your keypad*/
+// static void keypad_init(void)
+// {
+//     /*Your code comes here*/
+// }
 
-/*Will be called by the library to read the mouse*/
-static void keypad_read(lv_indev_drv_t * indev_drv, lv_indev_data_t * data)
-{
-    static uint32_t last_key = 0;
+// /*Will be called by the library to read the mouse*/
+// static void keypad_read(lv_indev_drv_t * indev_drv, lv_indev_data_t * data)
+// {
+//     static uint32_t last_key = 0;
 
-    /*Get the current x and y coordinates*/
-    mouse_get_xy(&data->point.x, &data->point.y);
+//     /*Get the current x and y coordinates*/
+//     mouse_get_xy(&data->point.x, &data->point.y);
 
-    /*Get whether the a key is pressed and save the pressed key*/
-    uint32_t act_key = keypad_get_key();
-    if(act_key != 0) {
-        data->state = LV_INDEV_STATE_PR;
+//     /*Get whether the a key is pressed and save the pressed key*/
+//     uint32_t act_key = keypad_get_key();
+//     if(act_key != 0) {
+//         data->state = LV_INDEV_STATE_PR;
 
-        /*Translate the keys to LVGL control characters according to your key definitions*/
-        switch(act_key) {
-            case 1:
-                act_key = LV_KEY_NEXT;
-                break;
-            case 2:
-                act_key = LV_KEY_PREV;
-                break;
-            case 3:
-                act_key = LV_KEY_LEFT;
-                break;
-            case 4:
-                act_key = LV_KEY_RIGHT;
-                break;
-            case 5:
-                act_key = LV_KEY_ENTER;
-                break;
-        }
+//         /*Translate the keys to LVGL control characters according to your key definitions*/
+//         switch(act_key) {
+//             case 1:
+//                 act_key = LV_KEY_NEXT;
+//                 break;
+//             case 2:
+//                 act_key = LV_KEY_PREV;
+//                 break;
+//             case 3:
+//                 act_key = LV_KEY_LEFT;
+//                 break;
+//             case 4:
+//                 act_key = LV_KEY_RIGHT;
+//                 break;
+//             case 5:
+//                 act_key = LV_KEY_ENTER;
+//                 break;
+//         }
 
-        last_key = act_key;
-    }
-    else {
-        data->state = LV_INDEV_STATE_REL;
-    }
+//         last_key = act_key;
+//     }
+//     else {
+//         data->state = LV_INDEV_STATE_REL;
+//     }
 
-    data->key = last_key;
-}
+//     data->key = last_key;
+// }
 
-/*Get the currently being pressed key.  0 if no key is pressed*/
-static uint32_t keypad_get_key(void)
-{
-  return 0;
-}
+// /*Get the currently being pressed key.  0 if no key is pressed*/
+// static uint32_t keypad_get_key(void)
+// {
+//   return 0;
+// }
 
 /*------------------
  * Encoder
  * -----------------*/
-static void encoder_handler(void* arg)
-{
-    /*Your code comes here*/
-    // encoder_diff += 0;
-    // encoder_state = LV_INDEV_STATE_REL;
-        //是否摁下拨盘的push
-    encoder_state = (gpio_get_level(ENCODER_PUSH) == 0)? LV_INDEV_STATE_PRESSED : LV_INDEV_STATE_RELEASED;
-    if(encoder_state == LV_INDEV_STATE_PRESSED){
-        Encoder_Diff_Enable = false;//摁下拨盘的时候就不再检测拨盘是否转动
-    }
-    else if(encoder_state == LV_INDEV_STATE_RELEASED){
-        Encoder_Diff_Enable = true;
-    }
-    //计算拨盘旋转持续了多久（中断函数每扫描一次加一）
-    if(Encoder_Diff_Enable){
-        int dir = (gpio_get_level(ENCODER_B) == 0 ? -1 : +1);
-        encoder_diff += dir;
-    }
-    /*测试拨轮gpio*/
-    //发送出现变化的gpio口及变化情况
-    uint32_t gpio_num = (uint32_t) arg;
-    xQueueSendFromISR(gpio_evt_queue, &gpio_num, NULL);
-}
-
 /*Initialize your keypad*/
+rotary_encoder_t *encoder = NULL;
+static int countLast = 0;
+uint32_t pcnt_unit = 0;
 static void encoder_init(void)
 {
-     /* 1.配置编码器push GPIO */
-    gpio_config_t io_conf;
-    io_conf.intr_type = GPIO_INTR_ANYEDGE;                /* 变化->中断*/
-    io_conf.pin_bit_mask = ENCODER_PUSH_GPIO_PIN_SEL;
-    io_conf.mode = GPIO_MODE_INPUT;
-    io_conf.pull_down_en =  GPIO_PULLDOWN_ENABLE ;       /* 允许下拉  */
-    io_conf.pull_up_en =  GPIO_PULLUP_DISABLE;
-    gpio_config(&io_conf);
-    /* 2.配置编码器A GPIO */
-    io_conf.intr_type = GPIO_INTR_POSEDGE;              /* 上升->中断*/
-    io_conf.pin_bit_mask = ENCODER_A_GPIO_PIN_SEL;
-    gpio_config(&io_conf);
-    /* 3.配置编码器B GPIO */
-    io_conf.intr_type = GPIO_INTR_DISABLE;              
-    io_conf.pin_bit_mask = ENCODER_B_GPIO_PIN_SEL;
-    gpio_config(&io_conf);
- 
-    //create a queue to handle gpio event from isr
-    gpio_evt_queue = xQueueCreate(10, sizeof(uint32_t));
- 
-    //install gpio isr service
-    gpio_install_isr_service(0);
-    //hook isr handler for specific gpio pin
-    gpio_isr_handler_add(ENCODER_PUSH,encoder_handler,(void*) ENCODER_PUSH);
-    gpio_isr_handler_add(ENCODER_A,encoder_handler,(void*) ENCODER_B);
+    rotary_encoder_config_t config = ROTARY_ENCODER_DEFAULT_CONFIG((rotary_encoder_dev_t)pcnt_unit, 39, 40);
+    ESP_ERROR_CHECK(rotary_encoder_new_ec11(&config, &encoder));
+
+    // Filter out glitch (1us)
+    ESP_ERROR_CHECK(encoder->set_glitch_filter(encoder, 1));
+
+    // Start encoder
+    ESP_ERROR_CHECK(encoder->start(encoder));
+
+}
+
+static void 
+encoder_handler()
+{
+    /*Your code comes here*/
+    static bool but_flag = true;
+    int nowCount = encoder->get_counter_value(encoder)/4.0;
+    
+    if(countLast > nowCount&&but_flag){
+        encoder_diff = 1;
+        but_flag = false;
+    }else if(countLast < nowCount&&but_flag){
+        encoder_diff = -1;
+        but_flag = false;
+    }else{
+        encoder_diff = 0;
+        but_flag = true;
+    }
+    countLast = nowCount;
+    // printf("%d  %d\n",nowCount,encoder_diff);
+    if(gpio_get_level(EC11_K_PIN)==0)
+        encoder_state = LV_INDEV_STATE_PR;
+    else
+        encoder_state = LV_INDEV_STATE_REL;
 }
 
 /*Will be called by the library to read the encoder*/
 static void encoder_read(lv_indev_drv_t * indev_drv, lv_indev_data_t * data)
 {
-     //初始化编码器
-   int filter_flag = 2;
-    /*简单滤波，减少误触的可能性*/
-    if(encoder_diff >= filter_flag){
-        encoder_diff = 1;
-    }
-    else if(encoder_diff <= -filter_flag){
-        encoder_diff = -1;
-    }
-    else{
-        encoder_diff = 0;
-    }
-    
-    /*为拨轮状态赋值，以实现对lv控件的控制*/
+    encoder_handler();
     data->enc_diff = encoder_diff;
     data->state = encoder_state;
-    encoder_diff = 0;//用完归零
+    encoder_diff = 0;
 }
 
-/*------------------
- * Button
- * -----------------*/
 
-/*Initialize your buttons*/
-static void button_init(void)
-{
-    /*Your code comes here*/
-}
+// /*------------------
+//  * Button
+//  * -----------------*/
 
-/*Will be called by the library to read the button*/
-static void button_read(lv_indev_drv_t * indev_drv, lv_indev_data_t * data)
-{
+// /*Initialize your buttons*/
+// static void button_init(void)
+// {
+//     /*Your code comes here*/ 
+// }
 
-    static uint8_t last_btn = 0;
+// /*Will be called by the library to read the button*/
+// static void button_read(lv_indev_drv_t * indev_drv, lv_indev_data_t * data)
+// {
 
-    /*Get the pressed button's ID*/
-    int8_t btn_act = button_get_pressed_id();
+//     static uint8_t last_btn = 0;
 
-    if(btn_act >= 0) {
-        data->state = LV_INDEV_STATE_PR;
-        last_btn = btn_act;
-    }
-    else {
-        data->state = LV_INDEV_STATE_REL;
-    }
+//     /*Get the pressed button's ID*/
+//     int8_t btn_act = button_get_pressed_id();
 
-    /*Save the last pressed button's ID*/
-    data->btn_id = last_btn;
-}
+//     if(btn_act >= 0) {
+//         data->state = LV_INDEV_STATE_PR;
+//         last_btn = btn_act;
+//     }
+//     else {
+//         data->state = LV_INDEV_STATE_REL;
+//     }
 
-/*Get ID  (0, 1, 2 ..) of the pressed button*/
-static int8_t button_get_pressed_id(void)
-{
-    uint8_t i;
+//     /*Save the last pressed button's ID*/
+//     data->btn_id = last_btn;
+// }
 
-    /*Check to buttons see which is being pressed (assume there are 2 buttons)*/
-    for(i = 0; i < 2; i++) {
-        /*Return the pressed button's ID*/
-        if(button_is_pressed(i)) {
-            return i;
-        }
-    }
+// /*Get ID  (0, 1, 2 ..) of the pressed button*/
+// static int8_t button_get_pressed_id(void)
+// {
+//     uint8_t i;
 
-    /*No button pressed*/
-    return -1;
-}
+//     /*Check to buttons see which is being pressed (assume there are 2 buttons)*/
+//     for(i = 0; i < 2; i++) {
+//         /*Return the pressed button's ID*/
+//         if(button_is_pressed(i)) {
+//             return i;
+//         }
+//     }
 
-/*Test if `id` button is pressed or not*/
-static bool button_is_pressed(uint8_t id)
-{
+//     /*No button pressed*/
+//     return -1;
+// }
 
-    /*Your code comes here*/
+// /*Test if `id` button is pressed or not*/
+// static bool button_is_pressed(uint8_t id)
+// {
 
-    return false;
-}
+//     /*Your code comes here*/
+
+//     return false;
+// }
 
 #else /*Enable this file at the top*/
 

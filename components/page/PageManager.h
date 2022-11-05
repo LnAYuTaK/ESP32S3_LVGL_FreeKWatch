@@ -1,4 +1,4 @@
-/**
+﻿/**
  * @file lv_100ask_page_manager.h
  *
  */
@@ -6,10 +6,16 @@
 #ifndef LV_100ASK_PAGE_MANAGER_H
 #define LV_100ASK_PAGE_MANAGER_H
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 /*********************
  *      INCLUDES
  *********************/
 #include "lvgl.h"
+#define LV_USE_100ASK_PAGE_MANAGER 1
+#if LV_USE_100ASK_PAGE_MANAGER != 0
 
 /*********************
  *      DEFINES
@@ -42,7 +48,7 @@ typedef struct {
     void (*init)(lv_obj_t * obj);
     void (*open_page)(lv_obj_t * obj);
     void (*close_page)(lv_obj_t * obj);
-
+    void (*group_load)(lv_obj_t * obj)
 } lv_100ask_page_manager_page_t;
 
 typedef struct {
@@ -83,6 +89,9 @@ void lv_100ask_page_manager_set_open_page(lv_obj_t * obj, char *name);
 
 void lv_100ask_page_manager_set_close_page(lv_obj_t * obj, char *name);
 
+
+void lv_100ask_page_manager_set_page_group_load(lv_obj_t * obj, void (*group_load)(lv_obj_t * obj));
+
 void lv_100ask_page_manager_set_load_page_event(lv_obj_t * obj, lv_obj_t * page, char *name);
 
 void lv_100ask_page_manager_set_open_page_anim(lv_obj_t * obj, void (*open_anim)(lv_obj_t  * obj));
@@ -103,8 +112,10 @@ lv_obj_t * lv_100ask_page_manager_page_create(lv_obj_t * parent, char * name);
  *      MACROS
  **********************/
 
+#endif  /*LV_USE_100ASK_PAGE_MANAGER*/
 
-
-
+#ifdef __cplusplus
+} /*extern "C"*/
+#endif
 
 #endif /*LV_100ASK_PAGE_MANAGER_H*/

@@ -17,7 +17,6 @@
 #include "lwip/sys.h"
 #include "esp_system.h"
 #include "esp_sntp.h"
-
 //默认账号密码
 #define EXAMPLE_ESP_WIFI_SSID      "YTYDHY"
 #define EXAMPLE_ESP_WIFI_PASS      "ydhy160725"
@@ -25,15 +24,8 @@
 #define WIFI_CONNECTED_BIT BIT0
 #define WIFI_FAIL_BIT      BIT1
 /// WifiLink configuration
-static void wifiEventHandler(void* arg, esp_event_base_t event_base, int32_t event_id, void* event_data);
-static void init_nvs();
-static int s_retry_num = 0;
-static EventGroupHandle_t s_wifi_event_group;
-static void  wifi_init_sta(void);
-static void  obtain_time();
-void task_wifi_scan(void *arg);
 
 void netInit();
-
+void task_wifi_scan(void *arg);
 #endif
 

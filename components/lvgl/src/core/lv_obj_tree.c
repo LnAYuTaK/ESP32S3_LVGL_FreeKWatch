@@ -38,6 +38,8 @@ static lv_obj_tree_walk_res_t walk_core(lv_obj_t * obj, lv_obj_tree_walk_cb_t cb
  *      MACROS
  **********************/
 
+
+
 /**********************
  *   GLOBAL FUNCTIONS
  **********************/

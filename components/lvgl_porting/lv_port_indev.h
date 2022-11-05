@@ -13,7 +13,6 @@
 #ifdef __cplusplus
 extern "C" {
 #endif
-
 /*********************
  *      INCLUDES
  *********************/
@@ -22,6 +21,7 @@ extern "C" {
 #include "freertos/semphr.h"
 #include "driver/gpio.h"
 #include "lvgl.h"
+#include "stdio.h"
 
 //端口设置
 
@@ -37,11 +37,11 @@ extern "C" {
  * GLOBAL PROTOTYPES
  **********************/
 extern lv_group_t*  group;
-extern lv_indev_t * indev_touchpad;
-extern lv_indev_t * indev_mouse;
-extern lv_indev_t * indev_keypad;
+// extern lv_indev_t * indev_touchpad;
+// extern lv_indev_t * indev_mouse;
+// extern lv_indev_t * indev_keypad;
 extern lv_indev_t * indev_encoder;
-extern lv_indev_t * indev_button;
+// extern lv_indev_t * indev_button;
 void lv_port_indev_init(void);
 
 /**********************

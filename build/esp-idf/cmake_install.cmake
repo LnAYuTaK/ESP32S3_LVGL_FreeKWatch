@@ -127,10 +127,11 @@ if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   include("E:/ESP32Watch/ESP32S3_LVGL_FreeKWatch/build/esp-idf/sd_fat/cmake_install.cmake")
   include("E:/ESP32Watch/ESP32S3_LVGL_FreeKWatch/build/esp-idf/lv_fs_if/cmake_install.cmake")
   include("E:/ESP32Watch/ESP32S3_LVGL_FreeKWatch/build/esp-idf/lvgl_esp32_drivers/cmake_install.cmake")
+  include("E:/ESP32Watch/ESP32S3_LVGL_FreeKWatch/build/esp-idf/rotary_encoder/cmake_install.cmake")
   include("E:/ESP32Watch/ESP32S3_LVGL_FreeKWatch/build/esp-idf/lvgl_porting/cmake_install.cmake")
   include("E:/ESP32Watch/ESP32S3_LVGL_FreeKWatch/build/esp-idf/res/cmake_install.cmake")
-  include("E:/ESP32Watch/ESP32S3_LVGL_FreeKWatch/build/esp-idf/page/cmake_install.cmake")
   include("E:/ESP32Watch/ESP32S3_LVGL_FreeKWatch/build/esp-idf/wifi/cmake_install.cmake")
+  include("E:/ESP32Watch/ESP32S3_LVGL_FreeKWatch/build/esp-idf/page/cmake_install.cmake")
 
 endif()
 
