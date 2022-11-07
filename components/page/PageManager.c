@@ -159,7 +159,7 @@ void lv_100ask_page_manager_set_open_page(lv_obj_t * obj, char *name)
             lv_page_back_btn_create(obj);
         }
     }
-    //线关闭在打开确保group
+    //先关闭在打开确保group
     /* del a new node */
     lv_100ask_page_manager_history_t * act_hist = _lv_ll_get_head(history_ll);
 
@@ -184,7 +184,6 @@ void lv_100ask_page_manager_set_close_page(lv_obj_t * obj, char *name)
     lv_100ask_page_manager_t * page_manager = (lv_100ask_page_manager_t *)(g_obj_page_manager);
     
     lv_100ask_page_manager_page_t * page;
-
     if (obj)
     {
         page = (lv_100ask_page_manager_page_t *)obj;
@@ -201,15 +200,6 @@ void lv_100ask_page_manager_set_close_page(lv_obj_t * obj, char *name)
 
     if(page->close_page)
         page->close_page(obj);
-
-    //lv_ll_t * history_ll = &(page_manager->history_ll);
-    /* The current page */
-    //lv_100ask_page_manager_history_t * act_hist = _lv_ll_get_head(history_ll);
-
-    //_lv_ll_remove(history_ll, act_hist);
-    //lv_mem_free(act_hist);
-    //page_manager->cur_depth--;
-
 }
 
 void lv_100ask_page_manager_set_load_page_event(lv_obj_t * obj, lv_obj_t * page, char *name)
@@ -227,7 +217,6 @@ void lv_100ask_page_manager_set_load_page_event(lv_obj_t * obj, lv_obj_t * page,
     {
         page = get_page(g_obj_page_manager, name);
     }
-    
     if (page)
     {
         lv_obj_add_event_cb(obj, lv_page_manager_load_page_event_cb, LV_EVENT_CLICKED, page);
@@ -298,7 +287,6 @@ static void lv_100ask_page_manager_page_constructor(const lv_obj_class_t * class
 
     lv_100ask_page_manager_page_t * page = (lv_100ask_page_manager_page_t *)obj;
     
-
     page->back_btn = NULL;
     
     page->anim_timeline = NULL;
@@ -399,34 +387,7 @@ static void lv_page_back_event_cb(lv_event_t * e)
 
 static void lv_page_back_btn_create(lv_obj_t * parent)
 {
-    // lv_group_t* group = lv_group_create();
-    // lv_group_add_obj(group,container);
-    // LV_IMG_DECLARE(backIcon);//返回
-    // static lv_style_t  backBtnStyle;
-    // lv_style_reset(&backBtnStyle);
-    // lv_style_init(&backBtnStyle);
-    // lv_style_set_radius(&backBtnStyle,20);
-    // lv_style_set_bg_color(&backBtnStyle,lv_color_make(155,160,170));
-    // lv_style_set_bg_opa(&backBtnStyle,LV_OPA_70);
-    // lv_obj_t * container = lv_obj_create(parent);
-    // lv_obj_set_size(container,150,35);
-    // lv_obj_align(container,LV_ALIGN_TOP_MID,0,25);
-    // lv_obj_set_flex_flow(container, LV_FLEX_FLOW_ROW);
-    // lv_obj_add_style( container,&backBtnStyle,0);
-    // lv_obj_set_style_pad_column(container,70,0);  
-    // lv_obj_t* backBtn = lv_btn_create(container);
-    // lv_obj_set_size(backBtn,35,35);
-    // lv_obj_set_style_bg_img_src(backBtn,&backIcon,0);
-    // lv_obj_set_style_bg_img_opa(backBtn,LV_OPA_COVER,0);
-    // lv_obj_add_flag(backBtn, LV_OBJ_FLAG_CLICKABLE);
-    // //测试
-    // lv_obj_t* test2Btn = lv_btn_create(container);
-    // lv_obj_add_flag(test2Btn, LV_OBJ_FLAG_CLICKABLE);
-    // lv_obj_set_size(test2Btn ,35,35);
-    // lv_group_t* group = lv_group_create();
-    // lv_group_add_obj(group,container);
-    // lv_obj_add_event_cb(backBtn, lv_page_back_event_cb, LV_EVENT_CLICKED, lv_obj_get_parent(parent));  
-    // lv_obj_add_event_cb(backBtn, lv_page_back_event_cb, LV_EVENT_PRESSING, NULL);   
+ 
 }
 
 #if LV_100ASK_PAGE_MANAGER_COSTOM_ANIMARION == 0
@@ -529,13 +490,15 @@ static lv_obj_t * get_page(lv_obj_t * page_manager, char *name)
     return NULL;
 }
 
+//通过flag 隐藏显示界面
+
+//隐藏界面
 static void lv_obj_100ask_open_page_anim_start_cb(lv_anim_t * a)
 {
     lv_obj_t * obj = (lv_obj_t *)a->var;
     lv_obj_clear_flag(obj, LV_OBJ_FLAG_HIDDEN);
 }
-
-
+//显示界面 
 static void lv_obj_100ask_open_page_anim_ready_cb(lv_anim_t * a)
 {
     lv_obj_t * obj = (lv_obj_t *)a->var;

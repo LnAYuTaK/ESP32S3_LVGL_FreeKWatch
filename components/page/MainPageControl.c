@@ -39,7 +39,11 @@ scrollBarControl(lv_obj_t * page)
     lv_obj_set_style_bg_color(container, lv_color_white(), LV_PART_MAIN);
     lv_obj_set_style_border_width(container, 3, LV_PART_MAIN);
     lv_obj_set_style_border_color(container ,lv_color_white(),LV_PART_MAIN);
-    lv_obj_set_style_pad_column(container,10, LV_PART_MAIN);   
+    lv_obj_set_style_pad_column(container,10, LV_PART_MAIN); 
+    //被选中变大
+    lv_obj_set_style_width(container,100,LV_PART_SELECTED);
+    lv_obj_set_style_height(container,100,LV_PART_SELECTED);
+    //居中
     lv_obj_center(container);
 //音乐
     lv_obj_t* yinleBtn = lv_btn_create(container);
@@ -96,6 +100,7 @@ scrollBarControl(lv_obj_t * page)
     lv_obj_set_style_bg_img_src( wifiBtn,&wifiicon,0);
     lv_obj_set_style_bg_opa(wifiBtn,LV_OPA_0,0);
     lv_obj_add_style(wifiBtn,& wifiBtnStyle,0);
+    //wifi页面回调
     lv_100ask_page_manager_set_load_page_event(wifiBtn,NULL,"Wifi_page");
 //AI
     lv_obj_t* aiImgBtn = lv_btn_create(container);
@@ -113,6 +118,7 @@ scrollBarControl(lv_obj_t * page)
     }
     /*当按钮数为偶数时，确保按钮居中*/
     lv_obj_scroll_to_view(lv_obj_get_child(container, mid_btn_index), LV_ANIM_OFF);
+   
     return  container;
 }
 //-----------------------------------------------------------------------------

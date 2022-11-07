@@ -33,5 +33,5 @@
         "*.ipp": "c",
         "commoncontrol.h": "c"
     },
-    "idf.portWin": "COM12"
+    "idf.portWin": "COM15"
 }

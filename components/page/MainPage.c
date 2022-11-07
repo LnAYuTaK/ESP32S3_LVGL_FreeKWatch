@@ -80,9 +80,3 @@ void initMainPage(lv_obj_t * page)
     //滑动解锁
 }
 
-
-
-
-
-
-
