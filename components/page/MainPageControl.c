@@ -10,11 +10,8 @@
 #include "wifiicon.c"
 #include "wifistateOn.c"
 #include "dianliang.c"
-
-
 //INPUT
 #include "lv_port_indev.h"
-
 LV_IMG_DECLARE(yinle);//红色
 LV_IMG_DECLARE(linggan);//橙色
 LV_IMG_DECLARE(shipin_);//黄色
@@ -25,7 +22,7 @@ LV_IMG_DECLARE(aiImg);//紫色
 LV_IMG_DECLARE(dianliang)//电量图标
 LV_IMG_DECLARE(wifistateOn)//wifi状态
 //-----------------------------------------------------------------------------
-lv_obj_t  * 
+lv_obj_t * 
 scrollBarControl(lv_obj_t * page)
 {
 //初始化中间滚动条按键  
@@ -40,11 +37,6 @@ scrollBarControl(lv_obj_t * page)
     lv_obj_set_style_border_width(container, 3, LV_PART_MAIN);
     lv_obj_set_style_border_color(container ,lv_color_white(),LV_PART_MAIN);
     lv_obj_set_style_pad_column(container,10, LV_PART_MAIN); 
-    //被选中变大
-    lv_obj_set_style_width(container,100,LV_PART_SELECTED);
-    lv_obj_set_style_height(container,100,LV_PART_SELECTED);
-    //居中
-    lv_obj_center(container);
 //音乐
     lv_obj_t* yinleBtn = lv_btn_create(container);
     lv_obj_set_size(yinleBtn, 70, 70);
@@ -153,8 +145,7 @@ clockTimerCallBack(lv_timer_t *timer)
 }
 //-----------------------------------------------------------------------------
 //时钟控件
-clockPointer * 
-clockControl(lv_obj_t * page)
+lv_obj_t * clockControl(lv_obj_t * page)
 {
 //核心画布
     static lv_style_t timeControlStyle;
@@ -166,7 +157,6 @@ clockControl(lv_obj_t * page)
     lv_obj_set_size(timeControl,170,60);
     lv_obj_add_style(timeControl,&timeControlStyle,0);
     lv_obj_set_flex_flow(timeControl, LV_FLEX_FLOW_COLUMN);
-    lv_obj_align(timeControl, LV_ALIGN_TOP_MID, 0,30);
 //时分秒
     static lv_style_t hourControlStyle;
     lv_style_init(&hourControlStyle);
@@ -188,14 +178,13 @@ clockControl(lv_obj_t * page)
     pointerData.timeControl = timeControl;
     pointerData.timeLabel = hourTimeLabel;
     lv_timer_create(clockTimerCallBack, 100, (void *)&pointerData); // 创建定时任务，200ms刷新一次
-    return &pointerData;
+    return timeControl;
 }
 //-----------------------------------------------------------------------------
 //主状态显示器
-lv_obj_t *mainStatuslindicator(lv_obj_t *page)
+lv_obj_t * 
+mainStatuslindicator(lv_obj_t *page)
 {
-    // static lv_style_t timeControlStyle;
-    // lv_style_init(&timeControlStyle);
     lv_obj_t * statuslindicator = lv_obj_create(page);
     lv_obj_set_flex_flow(statuslindicator, LV_FLEX_FLOW_ROW);
     lv_obj_set_style_pad_column(statuslindicator,5, LV_PART_MAIN); 

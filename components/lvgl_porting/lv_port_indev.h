@@ -22,6 +22,7 @@ extern "C" {
 #include "driver/gpio.h"
 #include "lvgl.h"
 #include "stdio.h"
+#include "lvgl_touch/touch_driver.h"
 
 //端口设置
 
@@ -37,7 +38,7 @@ extern "C" {
  * GLOBAL PROTOTYPES
  **********************/
 extern lv_group_t*  group;
-// extern lv_indev_t * indev_touchpad;
+extern lv_indev_t * indev_touchpad;
 // extern lv_indev_t * indev_mouse;
 // extern lv_indev_t * indev_keypad;
 extern lv_indev_t * indev_encoder;

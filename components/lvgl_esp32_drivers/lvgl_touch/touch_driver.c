@@ -5,7 +5,6 @@
 #include "touch_driver.h"
 #include "tp_spi.h"
 
-
 void touch_driver_init(void)
 {
 #if defined (CONFIG_LV_TOUCH_CONTROLLER_XPT2046)
@@ -22,6 +21,8 @@ void touch_driver_init(void)
     ra8875_touch_init();
 #elif defined (CONFIG_LV_TOUCH_CONTROLLER_GT911)
     gt911_init(GT911_I2C_SLAVE_ADDR);
+#elif defined (CONFIG_LV_TOUCH_CONTROLLER_CST816T)
+    CST816T_init();
 #endif
 }
 
@@ -47,6 +48,8 @@ bool touch_driver_read(lv_indev_drv_t *drv, lv_indev_data_t *data)
     res = ra8875_touch_read(drv, data);
 #elif defined (CONFIG_LV_TOUCH_CONTROLLER_GT911)
     res = gt911_read(drv, data);
+#elif defined (CONFIG_LV_TOUCH_CONTROLLER_CST816T)
+    res = CST816T_read(drv, data);
 #endif
 
 #if LVGL_VERSION_MAJOR >= 8

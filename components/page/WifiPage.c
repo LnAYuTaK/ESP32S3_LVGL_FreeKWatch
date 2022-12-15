@@ -7,16 +7,6 @@
 #include "lv_port_indev.h"
 #include "CommonControl.h"
 //Singleton var
-static wifiGroup_t wifiGroup;
-// //
-//-----------------------------------------------------------------------------
-static void 
-wifiListViewBtnCb(lv_event_t e)
-{
-
-    //MESSAGEBOX()
-
-}
 //-----------------------------------------------------------------------------
 //wifi列表组件
 lv_obj_t *
@@ -45,59 +35,38 @@ wifiListViewCreate(lv_obj_t * page)
     for(int i = 0; i < num; i++) {
 	lv_obj_t * btn = lv_list_add_btn(listView,LV_SYMBOL_WIFI,(char*)records[i].ssid);
     }
-    // wifiGroup.listView =  listView;
     return listView;
 }
 //-----------------------------------------------------------------------------
-void wifiGroupLoad(lv_obj_t * scr)
-{ 
-    lv_group_add_obj(group,wifiGroup.backbtn);
-    //WifiList
-    // for(int i=0 ;i < 8 ;i++) {
-    //     lv_obj_t * obj = lv_obj_get_child(wifiGroup.listView,i);
-    //     if(obj!=NULL) {
-    //         lv_group_add_obj(group,obj);
-    //     }
-    // }
-    lv_group_set_editing(group,false);//导航模式
-    lv_group_focus_obj(scr);
-}
-//-----------------------------------------------------------------------------
-void
-setWifiGroup(lv_obj_t * menu)
+//WIFI Sub Page
+void  //WIFI 
+initWifiSettingPage(lv_obj_t * page)
 {
-    //按键//
-    wifiGroup.backbtn  =lv_menu_get_main_header_back_btn(menu);
+
+
+
+
+
+
 }
 //-----------------------------------------------------------------------------
-void 
+
+void  //WIFI 
 initWifiPage(lv_obj_t * page)
 { 
-    lv_obj_t  * wifiMenu  = menuCreate(page,"WIFI");
-    setWifiGroup(wifiMenu);
-    lv_obj_t *rootPage = lv_menu_get_cur_main_page(wifiMenu);
-    //wifiConfig
-    createText(rootPage, NULL, "WLAN"); 
+    //wifi  //
+    //Back  //title
+    //Connect  Page 
+    //Setting  Page
+    lv_obj_t  * wifiMenu  = menuCreate(page,"WifiConnect");
+    lv_obj_t * rootPage = lv_menu_get_cur_main_page(wifiMenu);
 
-    lv_obj_t * wifiConfig = lv_menu_section_create(rootPage);
+    //
+    lv_obj_t wifiSettingPage = lv_100ask_page_manager_page_create(wifiMenu, "Main_page");
+    lv_100ask_page_manager_set_page_init(wifiMenu,initWifiSettingPage);
 
-    static lv_style_t countStyle;
-    lv_style_reset(&countStyle);
-    lv_style_init(&countStyle);
-    lv_obj_set_style_bg_color(wifiConfig,lv_palette_main(LV_PALETTE_GREY),0);
-    lv_obj_add_style(wifiConfig,&countStyle,0);
+    lv_obj_t * wifiSetting = menuSectionCreate(rootPage,NULL,"Connect");
+    lv_obj_t * wifiSetting = menuSectionCreate(rootPage,NULL,"Setting");
 
-    createText(wifiConfig,NULL,"WIFI"); 
-    createText(wifiConfig,NULL,"Settings");  
-    //Connected wlan
-    createText(rootPage,NULL, "Connected wlan"); 
-    lv_obj_t * wifiConnect = lv_menu_section_create(rootPage);
-    //Available wlan
-    createText(rootPage, NULL, "Available wlan"); 
-    lv_obj_t * wifiAvailable = lv_menu_section_create(rootPage);
-    //ListView
-    // wifiListViewCreate(wifiAvailable);
 }
 //-----------------------------------------------------------------------------
-
-

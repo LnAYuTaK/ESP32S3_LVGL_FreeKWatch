@@ -36,7 +36,7 @@ task_wifi_scan(void *arg){
                 }
                 break;
         }
-	// 逐条打印扫描到的WiFi
+	//逐条打印扫描到的WiFi
         printf("—————【第 %2d 个WiFi】———————\n", i+1);
         printf("WiFi名称: %s\n", records[i].ssid);
         printf("信号强度: %d格\n", rssi_level);
@@ -44,7 +44,7 @@ task_wifi_scan(void *arg){
     }
 }
 //------------------------------------------------------------------------
-void    //WIFI 的回调
+void//WIFI 的回调
 wifiEventHandler(void* arg, esp_event_base_t event_base, int32_t event_id, void* event_data) 
 {
     if (event_base == WIFI_EVENT && event_id == WIFI_EVENT_STA_START) {

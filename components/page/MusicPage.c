@@ -37,54 +37,16 @@ create_ctrl_box(lv_obj_t * page)
     icon = lv_img_create(cont);
     lv_img_set_src(icon, &xunhuan);
     lv_obj_set_grid_cell(icon, LV_GRID_ALIGN_END, 5, 1, LV_GRID_ALIGN_CENTER, 0, 1);
-
-//     icon = lv_img_create(cont);
-//     lv_img_set_src(icon, &shangyishou);
-//     lv_obj_set_grid_cell(icon, LV_GRID_ALIGN_CENTER, 2, 1, LV_GRID_ALIGN_CENTER, 0, 1);
-//     // lv_obj_add_event_cb(icon, prev_click_event_cb, LV_EVENT_CLICKED, NULL);
-
-//     lv_obj_t * play_obj = lv_imgbtn_create(cont);
-//     lv_imgbtn_set_src(play_obj, LV_IMGBTN_STATE_RELEASED, NULL, &play, NULL);
-//     lv_imgbtn_set_src(play_obj, LV_IMGBTN_STATE_CHECKED_RELEASED, NULL, &zanting, NULL);
-//     lv_obj_add_flag(play_obj, LV_OBJ_FLAG_CHECKABLE);
-//     lv_obj_set_grid_cell(play_obj, LV_GRID_ALIGN_CENTER, 3, 1, LV_GRID_ALIGN_CENTER, 0, 1);
-
-//     // lv_obj_add_event_cb(play_obj, play_event_click_cb, LV_EVENT_CLICKED, NULL);
-//     lv_obj_add_flag(play_obj, LV_OBJ_FLAG_CLICKABLE);
-//     lv_obj_set_width(play_obj, play.header.w);
-
-//     icon = lv_img_create(cont);
-//     lv_img_set_src(icon, &xiayishou);
-//     lv_obj_set_grid_cell(icon, LV_GRID_ALIGN_CENTER, 4, 1, LV_GRID_ALIGN_CENTER, 0, 1);
-//    // lv_obj_add_event_cb(icon, next_click_event_cb, LV_EVENT_CLICKED, NULL);
-//     lv_obj_add_flag(icon, LV_OBJ_FLAG_CLICKABLE);
-
-    // LV_IMG_DECLARE(img_lv_demo_music_slider_knob);
-    // slider_obj = lv_slider_create(cont);
-    // lv_obj_set_style_anim_time(slider_obj, 100, 0);
-    // lv_obj_add_flag(slider_obj, LV_OBJ_FLAG_CLICKABLE); /*No input from the slider*/
-
-    //lv_obj_set_grid_cell(slider_obj, LV_GRID_ALIGN_STRETCH, 1, 4, LV_GRID_ALIGN_CENTER, 1, 1);
-
-    // lv_obj_set_style_bg_img_src(slider_obj, &img_lv_demo_music_slider_knob, LV_PART_KNOB);
-    // lv_obj_set_style_bg_opa(slider_obj, LV_OPA_TRANSP, LV_PART_KNOB);
-    // lv_obj_set_style_pad_all(slider_obj, 20, LV_PART_KNOB);
-    // lv_obj_set_style_bg_grad_dir(slider_obj, LV_GRAD_DIR_HOR, LV_PART_INDICATOR);
-    // lv_obj_set_style_bg_color(slider_obj, lv_color_hex(0x569af8), LV_PART_INDICATOR);
-    // lv_obj_set_style_bg_grad_color(slider_obj, lv_color_hex(0xa666f1), LV_PART_INDICATOR);
-    // lv_obj_set_style_outline_width(slider_obj, 0, 0);
-
-    // time_obj = lv_label_create(cont);
-    // lv_obj_set_style_text_font(time_obj, font_small, 0);
-    // lv_obj_set_style_text_color(time_obj, lv_color_hex(0x8a86b8), 0);
-    // lv_label_set_text(time_obj, "0:00");
-    // lv_obj_set_grid_cell(time_obj, LV_GRID_ALIGN_END, 5, 1, LV_GRID_ALIGN_CENTER, 1, 1);
     return cont;
 }
 //-----------------------------------------------------------------------------
-void initMusicPage(lv_obj_t * page)
+void 
+initMusicPage(lv_obj_t * page)
 {
-//Music界面初始化
-//    create_ctrl_box(page);
-//  lv_obj_set_size(cont,150,60);
+
+
+
+
+
+
 }

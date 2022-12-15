@@ -126,13 +126,6 @@ void lv_100ask_page_manager_set_page_init(lv_obj_t * obj, void (*init)(lv_obj_t 
     page->init = init;
 }
 
-//加载group
-void lv_100ask_page_manager_set_page_group_load(lv_obj_t * obj, void (*group_load)(lv_obj_t * obj))
-{
-    lv_100ask_page_manager_page_t * page = (lv_100ask_page_manager_page_t *)obj;
-    page->group_load =group_load;
-}
-
 void lv_100ask_page_manager_set_open_page(lv_obj_t * obj, char *name)
 {
     lv_100ask_page_manager_t * page_manager = (lv_100ask_page_manager_t *)(g_obj_page_manager);
@@ -153,11 +146,6 @@ void lv_100ask_page_manager_set_open_page(lv_obj_t * obj, char *name)
     if (lv_obj_get_child_cnt(obj) == 0)
     {
         page->init(obj);
-        //加载group//
-        if (page_manager->main_page != obj)
-        {
-            lv_page_back_btn_create(obj);
-        }
     }
     //先关闭在打开确保group
     /* del a new node */
@@ -166,10 +154,6 @@ void lv_100ask_page_manager_set_open_page(lv_obj_t * obj, char *name)
     if(act_hist != NULL)       
         lv_100ask_page_manager_set_close_page(act_hist->page, NULL);
 
-    if(page->group_load)
-    {
-        page->group_load(obj);
-    }
     if(page->open_page)
         page->open_page(obj);
     
@@ -195,9 +179,8 @@ void lv_100ask_page_manager_set_close_page(lv_obj_t * obj, char *name)
     }
     else return;
 
-    ESP_LOGE("GROUP","REMOVEALL");
     lv_group_remove_all_objs(group);
-
+    
     if(page->close_page)
         page->close_page(obj);
 }
@@ -383,11 +366,6 @@ static void lv_page_back_event_cb(lv_event_t * e)
         lv_coord_t y = lv_obj_get_y(obj) + vect.y;
         lv_obj_set_pos(obj, x, y);
     }
-}
-
-static void lv_page_back_btn_create(lv_obj_t * parent)
-{
- 
 }
 
 #if LV_100ASK_PAGE_MANAGER_COSTOM_ANIMARION == 0

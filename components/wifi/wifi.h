@@ -18,8 +18,8 @@
 #include "esp_system.h"
 #include "esp_sntp.h"
 //默认账号密码
-#define EXAMPLE_ESP_WIFI_SSID      "YTYDHY"
-#define EXAMPLE_ESP_WIFI_PASS      "ydhy160725"
+#define EXAMPLE_ESP_WIFI_SSID      "ydhy"
+#define EXAMPLE_ESP_WIFI_PASS      "ydhy123456"
 #define EXAMPLE_ESP_MAXIMUM_RETRY  10
 #define WIFI_CONNECTED_BIT BIT0
 #define WIFI_FAIL_BIT      BIT1
@@ -27,5 +27,11 @@
 
 void netInit();
 void task_wifi_scan(void *arg);
+
+
+
+
+
+
 #endif
 

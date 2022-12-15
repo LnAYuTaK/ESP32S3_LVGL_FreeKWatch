@@ -89,7 +89,6 @@ void lv_100ask_page_manager_set_open_page(lv_obj_t * obj, char *name);
 
 void lv_100ask_page_manager_set_close_page(lv_obj_t * obj, char *name);
 
-
 void lv_100ask_page_manager_set_page_group_load(lv_obj_t * obj, void (*group_load)(lv_obj_t * obj));
 
 void lv_100ask_page_manager_set_load_page_event(lv_obj_t * obj, lv_obj_t * page, char *name);

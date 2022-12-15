@@ -22,7 +22,11 @@ typedef struct {
  **********************/
 lv_obj_t * menuCreate(lv_obj_t * obj,const char *pageName);
 
-lv_obj_t* createText(lv_obj_t* parent, const char* icon, const char* txt);
+// lv_obj_t* menuDesCreate(lv_obj_t* parent, const char* icon, const char* txt ,const char * des);
+
+lv_obj_t* menuTextCreate(lv_obj_t* parent, const char* icon, const char* txt);
+
+lv_obj_t *menuSectionCreate(lv_obj_t* page,const char * icon,const char * titile);
 #endif //COMMONCONTROL_H
 
 

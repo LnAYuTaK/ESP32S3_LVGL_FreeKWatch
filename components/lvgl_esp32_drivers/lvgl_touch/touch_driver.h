@@ -34,8 +34,9 @@ extern "C" {
 #include "ra8875_touch.h"
 #elif defined (CONFIG_LV_TOUCH_CONTROLLER_GT911)
 #include "gt911.h"
+#elif defined (CONFIG_LV_TOUCH_CONTROLLER_CST816T)
+#include "CST816T.h"
 #endif
-
 /*********************
 *      DEFINES
 *********************/

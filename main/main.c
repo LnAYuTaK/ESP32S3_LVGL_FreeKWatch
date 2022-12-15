@@ -8,23 +8,22 @@
 #include "MainPage.h"
 #include "esp_system.h"
 #include <string.h>
-
+#include "stdio.h"
 static void lv_tick_task(void *arg)
 {
 	(void)arg;
 	lv_tick_inc(10);
 }
-
 void app_main(void) 
 {
     //网络wifi 时钟初始化//
-    netInit();
+    //netInit();
     //lvgl 初始化//
     lv_init();
     //显示设备初始化
     lv_port_disp_init();
     //文件系统初始化
-    //lv_fs_if_init();
+    lv_fs_if_init();
     //输入设备初始化
     lv_port_indev_init();
     //应用层组件初始化
@@ -38,7 +37,6 @@ void app_main(void)
     PageInit();
     for(;;) {
          lv_task_handler();
-         lv_tick_inc(10);
          vTaskDelay(pdMS_TO_TICKS(10));
      }
 }

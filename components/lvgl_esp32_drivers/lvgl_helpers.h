@@ -38,7 +38,7 @@ extern "C" {
 #define DISP_BUF_SIZE   CONFIG_CUSTOM_DISPLAY_BUFFER_BYTES
 #else
 #ifndef LV_HOR_RES_MAX
-#define LV_HOR_RES_MAX (240)
+#define LV_HOR_RES_MAX (280)
 #endif
 #ifndef LV_VER_RES_MAX
 #define LV_VER_RES_MAX (240)

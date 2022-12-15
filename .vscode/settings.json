@@ -31,7 +31,18 @@
         "charconv": "c",
         "xstring": "c",
         "*.ipp": "c",
-        "commoncontrol.h": "c"
+        "commoncontrol.h": "c",
+        "lvgl_helpers.h": "c",
+        "system_error": "c",
+        "type_traits": "c",
+        "cst816t.h": "c",
+        "touch_driver.h": "c",
+        "gt911.h": "c",
+        "stdbool.h": "c",
+        "sd_fat.h": "c",
+        "unistd.h": "c",
+        "esp_vfs_fat.h": "c",
+        "sdmmc_host.h": "c"
     },
-    "idf.portWin": "COM15"
+    "idf.portWin": "COM4"
 }

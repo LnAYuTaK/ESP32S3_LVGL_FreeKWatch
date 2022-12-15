@@ -25,7 +25,7 @@ typedef struct _lv_clock
 //滚动条初始化 
 lv_obj_t * scrollBarControl(lv_obj_t * page);
 //创建时间结构体
-clockPointer *clockControl(lv_obj_t * page);
+lv_obj_t  *clockControl(lv_obj_t * page);
 //主状态显示器
 lv_obj_t *mainStatuslindicator(lv_obj_t *page);
 #endif //MAINPAGECONTROL_H

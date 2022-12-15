@@ -26,16 +26,11 @@ extern lv_obj_t  *  musicPage;
 void PageInit();
 // static void button_event_cb(lv_event_t* event);
 void initMainPage(lv_obj_t * page);
-void mainGroupLoad(lv_obj_t * page);
 // static void open_page_anim(lv_obj_t * obj);
 // static void close_page_anim(lv_obj_t * obj);
 /*=====================
  * Setter functions
  *====================*/
-typedef struct mainPageGroup
-{
-    lv_obj_t *strcollbar;
-}mainGroup_t;
 
 /*=====================
  * Getter functions
